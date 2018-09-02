@@ -1,11 +1,11 @@
-package com.revature.register;
+package com.revature.bank;
 
 import com.revature.pojos.Account;
 import com.revature.pojos.SingleAccount;
 
 public  class Register {
 	
-	public static Account registerSingle(String firstName, String lastName, String accountType, String userName, String password) {
+	public static Account registerSingle(String firstName, String lastName, String accountType, String userName, String password, int accountNumber) {
 		
 		Account user = new SingleAccount();
 		user.setFirstName(firstName);
@@ -14,6 +14,7 @@ public  class Register {
 		user.setAccountStatus(Account.ACCOUNT_PENDING);
 		user.setUserName(userName);
 		user.setPassword(password);
+		user.setAccountNumber(accountNumber);
 		return user;
 	}
 	

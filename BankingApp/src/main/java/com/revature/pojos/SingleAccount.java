@@ -57,6 +57,12 @@ public class SingleAccount implements Account{
 		this.accountStatus = status;
 		
 	}
+	@Override
+	public String toString() {
+		return "SingleAccount [balance=" + balance + ", accountNumber=" + accountNumber + ", accountType=" + accountType
+				+ ", accountStatus=" + accountStatus + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", userName=" + userName + "]";
+	}
 	public String getAccountStatus() {
 		// TODO Auto-generated method stub
 		return this.accountStatus;
