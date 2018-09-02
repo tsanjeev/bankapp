@@ -13,6 +13,8 @@ public class SingleAccount implements Account{
 	private String accountStatus;
 	private String firstName;
 	private String lastName;
+	private String userName;
+	private String password;
 	
 	public void deposit(int amount) {
 		// TODO Auto-generated method stub
@@ -75,6 +77,24 @@ public class SingleAccount implements Account{
 	public String getLastName() {
 		// TODO Auto-generated method stub
 		return this.lastName;
+	}
+	public String getUserName() {
+		// TODO Auto-generated method stub
+		return this.userName;
+	}
+	public void setUserName(String userName) {
+		// TODO Auto-generated method stub
+		this.userName = userName;
+		
+	}
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.password;
+	}
+	public void setPassword(String password) {
+		// TODO Auto-generated method stub
+		this.password = password;
+		
 	}
 	
 

@@ -18,6 +18,10 @@ public interface Account extends Serializable {
 	public void setLastName(String lastName);
 	public String getFirstName();
 	public String getLastName();
+	public String getUserName();
+	public void setUserName(String userName);
+	public String getPassword();
+	public void setPassword(String password);
 	
 	public static final String ACCOUNT_APPROVED = "APPROVED";
 	public static final String ACCOUNT_DENIED = "DENIED";

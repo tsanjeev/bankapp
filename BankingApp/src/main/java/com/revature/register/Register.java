@@ -5,13 +5,15 @@ import com.revature.pojos.SingleAccount;
 
 public  class Register {
 	
-	public static Account registerSingle(String firstName, String lastName, String accountType) {
+	public static Account registerSingle(String firstName, String lastName, String accountType, String userName, String password) {
 		
 		Account user = new SingleAccount();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setAccountType(accountType);
 		user.setAccountStatus(Account.ACCOUNT_PENDING);
+		user.setUserName(userName);
+		user.setPassword(password);
 		return user;
 	}
 	

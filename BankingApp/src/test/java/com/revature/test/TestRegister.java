@@ -39,11 +39,19 @@ public class TestRegister {
 	public void testRegisterSingle() {
 		String firstName = "John";
 		String lastName = "Doe";
+		String userName = "qwerty";
+		String password = "12345";
 		String accountType = Account.ACCOUNT_SAVINGS;
-		SingleAccount newUser = (SingleAccount)Register.registerSingle(firstName, lastName, accountType);
+		SingleAccount newUser = (SingleAccount)Register.registerSingle(firstName, lastName, accountType, userName, password);
 		assertEquals(newUser.getFirstName(), firstName);
 		assertEquals(newUser.getLastName(), lastName);
 		assertEquals(newUser.getAccountType(), accountType);
+		assertEquals(newUser.getUserName(), userName);
+		assertEquals(newUser.getPassword(), password);
+	}
+	
+	@Test
+	public void testRegisterJoint() {
 		
 	}
 

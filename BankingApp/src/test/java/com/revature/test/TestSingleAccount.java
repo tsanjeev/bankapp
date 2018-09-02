@@ -34,6 +34,8 @@ public class TestSingleAccount {
 		user.setAccountStatus(Account.ACCOUNT_APPROVED);
 		user.setFirstName("John");
 		user.setLastName("Doe");
+		user.setUserName("qwerty");
+		user.setPassword("12345");
 	}
 
 	@After
@@ -121,5 +123,26 @@ public class TestSingleAccount {
 	@Test
 	public void testGetLastName() {
 		assertEquals(user.getLastName(), "Doe");
+	}
+	
+	@Test
+	public void testGetUserName() {
+		assertEquals(user.getUserName(), "qwerty");
+	}
+	@Test
+	public void testsetUserName() {
+		user.setUserName("ytrewq");
+		assertEquals(user.getUserName(), "ytrewq");
+	}
+	
+	@Test
+	public void testGetPassword() {
+		assertEquals(user.getPassword(), "12345");
+	}
+	
+	@Test
+	public void testSetPassword() {
+		user.setPassword("54321");
+		assertEquals(user.getPassword(), "54321");
 	}
 }
