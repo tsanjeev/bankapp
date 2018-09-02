@@ -1,7 +1,8 @@
 package com.revature.bank;
 
-import com.revature.pojos.Account;
-import com.revature.pojos.SingleAccount;
+import com.revature.account.Account;
+import com.revature.account.SingleAccount;
+import com.revature.util.LoggingUtil;
 
 public  class Register {
 	
@@ -15,6 +16,9 @@ public  class Register {
 		user.setUserName(userName);
 		user.setPassword(password);
 		user.setAccountNumber(accountNumber);
+		LoggingUtil.logInfo("Account successfully created - Status pending approval");
+		user.setLoggedOn(false);
+		LoggingUtil.logInfo("Logging off");
 		return user;
 	}
 	

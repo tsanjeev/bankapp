@@ -1,6 +1,8 @@
-package com.revature.pojos;
+package com.revature.employee;
 
 import java.io.Serializable;
+
+import com.revature.account.Account;
 
 public class Employee implements Serializable {
 	

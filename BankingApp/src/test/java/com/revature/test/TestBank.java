@@ -27,8 +27,33 @@ public class TestBank {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testApply() {
+		
+	}
+	
+	@Test
+	public void testApplyJoin() {
+		
+	}
+	
+	@Test
+	public void testGetPendingAccounts() {
+		
+	}
+	
+	@Test 
+	public void testWdithdraw() {
+		
+	}
+	
+	@Test
+	public void testDeposit() {
+		
+	}
+	
+	@Test 
+	public void testTranser() {
+		
 	}
 
 }

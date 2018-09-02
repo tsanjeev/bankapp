@@ -1,8 +1,10 @@
-package com.revature.pojos;
+package com.revature.account;
 
 import java.io.Serializable;
 
 public interface Account extends Serializable {
+	
+	
 	
 	public void deposit(int amount);
 	public void setBalance(int amount);
@@ -22,6 +24,8 @@ public interface Account extends Serializable {
 	public void setUserName(String userName);
 	public String getPassword();
 	public void setPassword(String password);
+	public boolean isLoggedIn();
+	public void setLoggedOn(boolean activity);
 	
 	public static final String ACCOUNT_APPROVED = "APPROVED";
 	public static final String ACCOUNT_DENIED = "DENIED";

@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.revature.pojos.Account;
-import com.revature.pojos.Employee;
-import com.revature.pojos.SingleAccount;
+import com.revature.account.Account;
+import com.revature.account.SingleAccount;
+import com.revature.employee.Employee;
 
 public class TestEmployee {
 

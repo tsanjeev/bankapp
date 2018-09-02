@@ -1,4 +1,4 @@
-package com.revature.pojos;
+package com.revature.account;
 
 public class SingleAccount implements Account{
 	
@@ -15,6 +15,7 @@ public class SingleAccount implements Account{
 	private String lastName;
 	private String userName;
 	private String password;
+	private boolean isLoggedOn;
 	
 	public void deposit(int amount) {
 		// TODO Auto-generated method stub
@@ -102,6 +103,15 @@ public class SingleAccount implements Account{
 		this.password = password;
 		
 	}
+	public boolean isLoggedIn() {
+		// TODO Auto-generated method stub
+		return isLoggedOn;
+	}
+	public void setLoggedOn(boolean activity) {
+		// TODO Auto-generated method stub
+		this.isLoggedOn = activity;
+	}
+	
 	
 
 }
