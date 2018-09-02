@@ -1,3 +1,4 @@
+package com.revature.test;
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -6,6 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.revature.pojos.Account;
 import com.revature.pojos.SingleAccount;
 
 public class TestSingleAccount {
@@ -13,7 +15,6 @@ public class TestSingleAccount {
 	SingleAccount user;
 	int initialBalance = 500;
 	int accountNumber = 123456;
-	String accountType = "Checking";
 	
 	
 	@BeforeClass
@@ -29,7 +30,10 @@ public class TestSingleAccount {
 		user = new SingleAccount();
 		user.setBalance(initialBalance);
 		user.setAccountNumber(accountNumber);
-		user.setAccountType(accountType);
+		user.setAccountType(Account.ACCOUNT_CHECKING);
+		user.setAccountStatus(Account.ACCOUNT_APPROVED);
+		user.setFirstName("John");
+		user.setLastName("Doe");
 	}
 
 	@After
@@ -77,13 +81,45 @@ public class TestSingleAccount {
 	
 	@Test
 	public void testSetAccountType() {
-		user.setAccountType("Savings");
-		assertEquals(user.getAccountType(), "Savings");
+		user.setAccountType(Account.ACCOUNT_SAVINGS);
+		assertEquals(user.getAccountType(), Account.ACCOUNT_SAVINGS);
 	}
 	
 	@Test
 	public void testGetAccountType() {
-		assertEquals(user.getAccountType(), "Checking");
+		assertEquals(user.getAccountType(), Account.ACCOUNT_CHECKING);
 	}
 	
+	@Test
+	public void testSetAccountStatus() {
+		user.setAccountStatus(Account.ACCOUNT_PENDING);
+		assertEquals(user.getAccountStatus(), Account.ACCOUNT_PENDING);
+	}
+	
+	@Test
+	public void testGetAccountStatus() {
+		assertEquals(user.getAccountStatus(), Account.ACCOUNT_APPROVED);
+	}
+	
+	@Test
+	public void testSetFirstName() {
+		user.setFirstName("Jane");
+		assertEquals(user.getFirstName(), "Jane");
+	}
+	
+	@Test
+	public void testSetLastName() {
+		user.setLastName("Plane");
+		assertEquals(user.getLastName(), "Plane");
+	}
+	
+	@Test
+	public void testGetFirstName() {
+		assertEquals(user.getFirstName(), "John");
+	}
+	
+	@Test
+	public void testGetLastName() {
+		assertEquals(user.getLastName(), "Doe");
+	}
 }

@@ -12,6 +12,18 @@ public interface Account extends Serializable {
 	public int getBalance();
 	public String getAccountType();
 	public void setAccountType(String accountType);
+	public void setAccountStatus(String status);
+	public String getAccountStatus();
+	public void setFirstName(String firstName);
+	public void setLastName(String lastName);
+	public String getFirstName();
+	public String getLastName();
+	
+	public static final String ACCOUNT_APPROVED = "APPROVED";
+	public static final String ACCOUNT_DENIED = "DENIED";
+	public static final String ACCOUNT_CHECKING = "CHECKING";
+	public static final String ACCOUNT_SAVINGS = "SAVINGS";
+	public static final String ACCOUNT_PENDING = "PENDING";
 	
 		
 }

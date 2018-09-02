@@ -10,6 +10,9 @@ public class SingleAccount implements Account{
 	private int balance;
 	private int accountNumber;
 	private String accountType;
+	private String accountStatus;
+	private String firstName;
+	private String lastName;
 	
 	public void deposit(int amount) {
 		// TODO Auto-generated method stub
@@ -46,6 +49,32 @@ public class SingleAccount implements Account{
 	public void setAccountType(String accountType) {
 		// TODO Auto-generated method stub
 		this.accountType = accountType;
+	}
+	public void setAccountStatus(String status) {
+		// TODO Auto-generated method stub
+		this.accountStatus = status;
+		
+	}
+	public String getAccountStatus() {
+		// TODO Auto-generated method stub
+		return this.accountStatus;
+	}
+	public void setFirstName(String firstName) {
+		// TODO Auto-generated method stub
+		this.firstName = firstName;
+		
+	}
+	public void setLastName(String lastName) {
+		// TODO Auto-generated method stub
+		this.lastName = lastName;
+	}
+	public String getFirstName() {
+		// TODO Auto-generated method stub
+		return this.firstName;
+	}
+	public String getLastName() {
+		// TODO Auto-generated method stub
+		return this.lastName;
 	}
 	
 
