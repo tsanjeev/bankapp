@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.revature.account.Account;
 import com.revature.account.SingleAccount;
+import com.revature.exception.BankExceptions;
 import com.revature.util.LoggingUtil;
 
 public class Bank implements Serializable{
@@ -79,6 +80,37 @@ public class Bank implements Serializable{
 			LoggingUtil.logInfo(accounts.get(x).toString());
 		}
 	}
+	
+	public Account customerLogin() throws BankExceptions{
+		Scanner scan = new Scanner(System.in);
+		LoggingUtil.logInfo("Please enter a username: ");
+		String userName = scan.nextLine();
+		LoggingUtil.logInfo("You entered: " + userName);
+		LoggingUtil.logInfo("Please enter a password: ");
+		String password = scan.nextLine();
+		LoggingUtil.logInfo("You entered: " + password);
+		
+		
+		scan.close();
+		
+		Account user = null;
+		for(int x = 0; x < userAccounts.size(); x++) {
+			if(userAccounts.get(x).getUserName().equals(userName) && (userAccounts.get(x).getPassword().equals(password))) {
+				user = userAccounts.get(x);
+			}
+		}
+		
+		if(user == null) {
+			throw new BankExceptions("Username / Passord not found.");
+		}
+		
+		return user;
+	}
+	
+	public void doTransaction() {
+		
+	}
+	
 	
 	public void withdraw(Account user, int amount) {
 		

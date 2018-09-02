@@ -11,6 +11,10 @@ public  class Register {
 		Account user = new SingleAccount();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
+		if(accountType.equalsIgnoreCase(Account.ACCOUNT_CHECKING))
+			accountType = Account.ACCOUNT_CHECKING;
+		else
+			accountType = Account.ACCOUNT_SAVINGS;
 		user.setAccountType(accountType);
 		user.setAccountStatus(Account.ACCOUNT_PENDING);
 		user.setUserName(userName);
