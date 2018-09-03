@@ -7,6 +7,8 @@ import java.io.*;
 
 import com.revature.account.Account;
 import com.revature.account.SingleAccount;
+import com.revature.employee.BankAdmin;
+import com.revature.employee.Employee;
 import com.revature.exception.BankExceptions;
 import com.revature.util.LoggingUtil;
 
@@ -16,7 +18,7 @@ public class Bank implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -3866137718288831030L;
-	private static final String filename = "bankTransactions.dat";
+	private static final String filename = "bankAccounts.dat";
 	List<Account> userAccounts = null;
 	private int numberOfAccounts;
 	Scanner scan;
@@ -30,8 +32,22 @@ public class Bank implements Serializable{
 		}
 		else
 			userAccounts = new ArrayList<Account>();
-		setNumberOfAccounts(getNumberOfAccounts());
-		displayPendingAccounts(userAccounts);
+		
+		List<Employee> bankEmp = new ArrayList<Employee>();
+		if(Employee.readEmployeeList() != null) {
+			bankEmp = Employee.readEmployeeList();
+		}
+		else {
+			Employee teller = new Employee();
+			teller.setEmployeeID(100);
+			bankEmp.add(teller);
+			Employee bankAdmin = new BankAdmin();
+			bankAdmin.setEmployeeID(500);
+			bankEmp.add(bankAdmin);
+		}
+		//displayPendingAccounts(userAccounts);
+		Employee.displayEmployeeList(bankEmp);
+		displayAccounts(userAccounts);
 		
 	}
 	
@@ -89,7 +105,7 @@ public class Bank implements Serializable{
 		return pendingAccounts;
 	}
 	
-	public void displayPendingAccounts(List<Account> accounts) {
+	public void displayAccounts(List<Account> accounts) {
 		for(int x = 0; x < accounts.size(); x++) {
 			LoggingUtil.logInfo(accounts.get(x).toString() + "\n");
 		}

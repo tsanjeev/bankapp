@@ -3,7 +3,9 @@ package com.revature.menu;
 import java.util.Scanner;
 
 import com.revature.account.Account;
+import com.revature.account.SingleAccountTransactions;
 import com.revature.bank.Bank;
+import com.revature.employee.BankAdmin;
 import com.revature.employee.Employee;
 import com.revature.exception.BankExceptions;
 import com.revature.util.LoggingUtil;
@@ -29,9 +31,11 @@ public class Menu {
 			if(input == 1)
 			{
 				bank.applySingle();
-				bank.displayPendingAccounts(bank.getPendingAccounts());
+				bank.displayAccounts(bank.getPendingAccounts());
 			}
 			else if(input == 2) {
+				SingleAccountTransactions.performSingleAccountTrans(bank);
+				/*
 				boolean isSuccessful = false;
 				Account user = null;
 				while(!isSuccessful)
@@ -98,10 +102,35 @@ public class Menu {
 							}
 						}
 					}
-				}
+				}*/
 			}
 			else if(input == 3){
 				boolean isFinished = false;
+				Employee bankEmployee = null;
+				while(!isFinished)
+				{
+					LoggingUtil.logInfo("Please enter employee id: ");
+					input = scan.nextInt();
+					if(Integer.toString((input)).charAt(0) == '1'){
+						LoggingUtil.logInfo("Welcome Teller: "+ input + "\n");
+						bankEmployee = new Employee();
+						bankEmployee.setEmployeeID(input);
+						isFinished = true;
+					}
+					else if(Integer.toString((input)).charAt(0) == '5') {
+						LoggingUtil.logInfo("Welcome BankAdmin: "+ input + "\n");
+						bankEmployee = new BankAdmin();
+						bankEmployee.setEmployeeID(input);
+						isFinished = true;
+					}
+					else {
+						LoggingUtil.logWarn("Invalid employee id - try again.");
+						
+					}
+				}
+				bankEmployee.employeeActions(bank);
+				/**
+				
 				while(!isFinished)
 				{
 					LoggingUtil.logInfo("1: Retrieve customer information\n");
@@ -113,7 +142,7 @@ public class Menu {
 						LoggingUtil.logInfo("Enter account numbuer: ");
 						int accountNumber = scan.nextInt();
 						try {
-								Employee.getCustomerInfo(bank.getAccount(accountNumber));
+								bankEmployee.getCustomerInfo(bank.getAccount(accountNumber));
 						} catch (BankExceptions e) {
 							LoggingUtil.logWarn("Account not found\n");
 						} 
@@ -132,7 +161,7 @@ public class Menu {
 							input = scan.nextInt();
 							if(input == 1) {
 								try {
-									Employee.approveApplication(bank.getAccount(accountNum));
+									bankEmployee.approveApplication(bank.getAccount(accountNum));
 								} catch (BankExceptions e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -140,7 +169,7 @@ public class Menu {
 							}
 							else if(input == 2) {
 								try {
-									Employee.denyApplication(bank.getAccount(accountNum));
+									bankEmployee.denyApplication(bank.getAccount(accountNum));
 								} catch (BankExceptions e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -151,11 +180,12 @@ public class Menu {
 					}
 					else if(input == 3) {
 						isFinished = true;
-					}
+					}**/
 				}
-			}
+			
 		}
 				
 		scan.close();
 	}
 }
+
