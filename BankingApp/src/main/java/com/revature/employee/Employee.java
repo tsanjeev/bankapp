@@ -3,6 +3,7 @@ package com.revature.employee;
 import java.io.Serializable;
 
 import com.revature.account.Account;
+import com.revature.util.LoggingUtil;
 
 public class Employee implements Serializable {
 	
@@ -33,11 +34,11 @@ public class Employee implements Serializable {
 		return person.getAccountType();
 	}
 	
-	public void approveApplication(Account person) {
+	public static void approveApplication(Account person) {
 		person.setAccountStatus(Account.ACCOUNT_APPROVED);
 	}
 
-	public void denyApplication(Account person) {
+	public static void denyApplication(Account person) {
 		person.setAccountStatus(Account.ACCOUNT_DENIED);
 	}
 	
@@ -51,5 +52,9 @@ public class Employee implements Serializable {
 	
 	public String getUserLastName(Account person) {
 		return person.getLastName();
+	}
+	
+	public static void getCustomerInfo(Account user) {
+		LoggingUtil.logInfo(user.toString());
 	}
 }

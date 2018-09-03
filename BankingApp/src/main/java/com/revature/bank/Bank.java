@@ -31,7 +31,7 @@ public class Bank implements Serializable{
 		else
 			userAccounts = new ArrayList<Account>();
 		setNumberOfAccounts(getNumberOfAccounts());
-		//displayPendingAccounts(userAccounts);
+		displayPendingAccounts(userAccounts);
 		
 	}
 	
@@ -70,7 +70,7 @@ public class Bank implements Serializable{
 		incrementAccountNumbers();
 		userAccounts.add(Register.registerSingle(firstName, lastName, accountType, userName, password, numberOfAccounts));
 		saveAccounts(userAccounts);
-		LoggingUtil.logInfo("Account Saved - pending approval - logging off\n\n");
+		LoggingUtil.logInfo("logging off\n\n");
 	}
 	
 	public void applyJoint() {
@@ -80,15 +80,17 @@ public class Bank implements Serializable{
 	public List<Account> getPendingAccounts(){
 		List<Account> pendingAccounts = new ArrayList<Account>();
 		for(int j = 0; j < userAccounts.size(); j++) {
-			if(userAccounts.get(j).getAccountStatus() == Account.ACCOUNT_PENDING)
+			if(userAccounts.get(j).getAccountStatus().equals(Account.ACCOUNT_PENDING))
 				pendingAccounts.add(userAccounts.get(j));
+			
 		}
+		System.out.println(pendingAccounts.size());
 		return pendingAccounts;
 	}
 	
 	public void displayPendingAccounts(List<Account> accounts) {
 		for(int x = 0; x < accounts.size(); x++) {
-			LoggingUtil.logInfo(accounts.get(x).toString());
+			LoggingUtil.logInfo(accounts.get(x).toString() + "\n");
 		}
 	}
 	
@@ -167,7 +169,7 @@ public class Bank implements Serializable{
 				acc = userAccounts.get(j);
 		}
 		if(acc == null)
-			throw new BankExceptions("Account not found");
+			throw new BankExceptions("Account not found\n");
 		return acc;
 	}
 }
