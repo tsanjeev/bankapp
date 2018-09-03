@@ -1,9 +1,9 @@
 package com.revature.bank;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.*;
 
 import com.revature.account.Account;
 import com.revature.account.SingleAccount;
@@ -16,13 +16,23 @@ public class Bank implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -3866137718288831030L;
-	List<Account> userAccounts;
+	private static final String filename = "bankTransactions.dat";
+	List<Account> userAccounts = null;
 	private int numberOfAccounts;
 	
 	
 	public Bank() {
-		userAccounts = new ArrayList<Account>();
-		setNumberOfAccounts(0);
+		
+			
+		//userAccounts = readAccounts();
+		if(readAccounts() != null){
+			userAccounts = readAccounts();
+		}
+		else
+			userAccounts = new ArrayList<Account>();
+		setNumberOfAccounts(getNumberOfAccounts());
+		displayPendingAccounts(userAccounts);
+		
 	}
 	
 
@@ -43,23 +53,24 @@ public class Bank implements Serializable{
 		Scanner scan = new Scanner(System.in);
 		LoggingUtil.logInfo("Please enter your first name: ");
 		String firstName = scan.nextLine();
-		LoggingUtil.logInfo("You entered: "+ firstName);
+		//LoggingUtil.logInfo("You entered: "+ firstName);
 		LoggingUtil.logInfo("Please enter your last name: ");
 		String lastName = scan.nextLine();
-		LoggingUtil.logInfo("You entered: "+ lastName);
+		//LoggingUtil.logInfo("You entered: "+ lastName);
 		LoggingUtil.logInfo("Please create a user name: ");
 		String userName = scan.nextLine();
-		LoggingUtil.logInfo("You entered "+ userName);
+		//LoggingUtil.logInfo("You entered "+ userName);
 		LoggingUtil.logInfo("Please create a password:  ");
 		String password = scan.nextLine();
-		LoggingUtil.logInfo("You entered "+ password);
+		//LoggingUtil.logInfo("You entered "+ password);
 		LoggingUtil.logInfo("Please choose an account type Checking/Savings: ");
 		String accountType = scan.nextLine();
-		LoggingUtil.logInfo("You entered "+ accountType);
+		//LoggingUtil.logInfo("You entered "+ accountType);
 		
 		incrementAccountNumbers();
 		userAccounts.add(Register.registerSingle(firstName, lastName, accountType, userName, password, numberOfAccounts));
-		scan.close();
+		saveAccounts(userAccounts);
+		LoggingUtil.logInfo("Account Saved - pending approval - logging off\n\n");
 	}
 	
 	public void applyJoint() {
@@ -85,13 +96,10 @@ public class Bank implements Serializable{
 		Scanner scan = new Scanner(System.in);
 		LoggingUtil.logInfo("Please enter a username: ");
 		String userName = scan.nextLine();
-		LoggingUtil.logInfo("You entered: " + userName);
+		//LoggingUtil.logInfo("You entered: " + userName);
 		LoggingUtil.logInfo("Please enter a password: ");
 		String password = scan.nextLine();
-		LoggingUtil.logInfo("You entered: " + password);
-		
-		
-		scan.close();
+		//LoggingUtil.logInfo("You entered: " + password);
 		
 		Account user = null;
 		for(int x = 0; x < userAccounts.size(); x++) {
@@ -101,14 +109,38 @@ public class Bank implements Serializable{
 		}
 		
 		if(user == null) {
-			throw new BankExceptions("Username / Passord not found.");
+			throw new BankExceptions("Username / Password not found.\n");
 		}
 		
 		return user;
 	}
 	
-	public void doTransaction() {
-		
+	public void saveAccounts(List<Account> bankAccounts) {
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))){
+			oos.writeObject(bankAccounts);
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Account> readAccounts() {
+		List<Account> bankAccounts = null;
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))){
+			bankAccounts = (List<Account>) ois.readObject();
+			//displayPendingAccounts(getPendingAccounts());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			return bankAccounts;
 	}
 	
 	

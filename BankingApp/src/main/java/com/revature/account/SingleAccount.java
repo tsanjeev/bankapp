@@ -1,6 +1,8 @@
 package com.revature.account;
 
-public class SingleAccount implements Account{
+import java.io.Serializable;
+
+public class SingleAccount implements Account,  Serializable{
 	
 	
 	/**
@@ -58,11 +60,13 @@ public class SingleAccount implements Account{
 		this.accountStatus = status;
 		
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "SingleAccount [balance=" + balance + ", accountNumber=" + accountNumber + ", accountType=" + accountType
 				+ ", accountStatus=" + accountStatus + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", userName=" + userName + "]";
+				+ ", userName=" + userName + ", password=" + password + ", isLoggedOn=" + isLoggedOn + "]";
 	}
 	public String getAccountStatus() {
 		// TODO Auto-generated method stub

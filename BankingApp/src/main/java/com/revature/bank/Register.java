@@ -20,9 +20,9 @@ public  class Register {
 		user.setUserName(userName);
 		user.setPassword(password);
 		user.setAccountNumber(accountNumber);
-		LoggingUtil.logInfo("Account successfully created - Status pending approval");
+		LoggingUtil.logInfo("Account successfully created - Status pending approval\n");
 		user.setLoggedOn(false);
-		LoggingUtil.logInfo("Logging off");
+		//LoggingUtil.logInfo("\nLogging off");
 		return user;
 	}
 	
