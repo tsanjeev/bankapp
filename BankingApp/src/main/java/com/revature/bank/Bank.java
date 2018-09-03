@@ -19,6 +19,7 @@ public class Bank implements Serializable{
 	 */
 	private static final long serialVersionUID = -3866137718288831030L;
 	private static final String filename = "bankAccounts.dat";
+	private static final String filenameTwo = "bankEmployees.dat";
 	List<Account> userAccounts = null;
 	private int numberOfAccounts;
 	Scanner scan;
@@ -27,14 +28,22 @@ public class Bank implements Serializable{
 		
 		scan = new Scanner(System.in);
 		//userAccounts = readAccounts();
-		if(readAccounts() != null){
+		File bankAcc = new File("backAccounts.dat");
+		
+		if(bankAcc.exists()){
 			userAccounts = readAccounts();
+			this.numberOfAccounts = userAccounts.size();
 		}
 		else
+		{
 			userAccounts = new ArrayList<Account>();
+			this.numberOfAccounts = 0;
+		}
 		
 		List<Employee> bankEmp = new ArrayList<Employee>();
-		if(Employee.readEmployeeList() != null) {
+		File empList = new File("bankEmployees.dat");
+		
+		if(empList.exists()) {
 			bankEmp = Employee.readEmployeeList();
 		}
 		else {
@@ -46,7 +55,8 @@ public class Bank implements Serializable{
 			bankEmp.add(bankAdmin);
 		}
 		//displayPendingAccounts(userAccounts);
-		Employee.displayEmployeeList(bankEmp);
+		//Employee.displayEmployeeList(bankEmp);
+		Employee.saveEmployeeList(bankEmp);
 		displayAccounts(userAccounts);
 		
 	}
@@ -84,7 +94,7 @@ public class Bank implements Serializable{
 		//LoggingUtil.logInfo("You entered "+ accountType);
 		
 		incrementAccountNumbers();
-		userAccounts.add(Register.registerSingle(firstName, lastName, accountType, userName, password, numberOfAccounts));
+		userAccounts.add(Register.registerSingle(firstName, lastName, accountType, userName, password, getNumberOfAccounts()));
 		saveAccounts();
 		LoggingUtil.logInfo("logging off\n\n");
 	}

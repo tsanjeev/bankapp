@@ -24,12 +24,28 @@ public class Employee implements Serializable {
 	private static final long serialVersionUID = 2918143209529064807L;
 	private static final String filename = "bankEmployees.dat";
 	protected int employeeID;
+	protected String position;
 	Scanner scan;
 	
 	public Employee() {
 		scan = new Scanner(System.in);
+		this.position = "Teller";
 	}
 	
+	
+	
+	public String getPosition() {
+		return position;
+	}
+
+
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+
+
 	public void setEmployeeID(int ID) {
 		this.employeeID = ID;
 	}
@@ -109,6 +125,7 @@ public class Employee implements Serializable {
 					if(input == 1) {
 						try {
 							approveApplication(bank.getAccount(accountNum));
+							LoggingUtil.logInfo(getPosition()+": " + getEmployeeID() + " - Approved account # " + accountNum + "\n" );
 						} catch (BankExceptions e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -128,9 +145,21 @@ public class Employee implements Serializable {
 			else if(input == 3) {
 				isFinished = true;
 			}
+		}
 	}
+
+	@Override
+	public String toString() {
+		return "Employee [employeeID=" + employeeID + "]";
+		
 	}
-	public void saveEmployeeList(List<Employee> employeeList) {
+	
+	public static void displayEmployeeList(List<Employee> emp) {
+		for(int j = 0; j < emp.size(); j++)
+			LoggingUtil.logInfo(emp.get(j).toString() + "\n");
+	}
+	
+	public static void saveEmployeeList(List<Employee> employeeList) {
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))){
 			oos.writeObject(employeeList);
 		}catch (FileNotFoundException e) {
@@ -156,16 +185,5 @@ public class Employee implements Serializable {
 			e.printStackTrace();
 		}
 			return employeeList;
-	}
-
-	@Override
-	public String toString() {
-		return "Employee [employeeID=" + employeeID + "]";
-		
-	}
-	
-	public static void displayEmployeeList(List<Employee> emp) {
-		for(int j = 0; j < emp.size(); j++)
-			LoggingUtil.logInfo(emp.get(j).toString() + "\n");
 	}
 }

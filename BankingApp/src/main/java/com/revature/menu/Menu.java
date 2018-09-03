@@ -31,7 +31,7 @@ public class Menu {
 			if(input == 1)
 			{
 				bank.applySingle();
-				bank.displayAccounts(bank.getPendingAccounts());
+				//bank.displayAccounts(bank.getPendingAccounts());
 			}
 			else if(input == 2) {
 				SingleAccountTransactions.performSingleAccountTrans(bank);
@@ -110,21 +110,21 @@ public class Menu {
 				while(!isFinished)
 				{
 					LoggingUtil.logInfo("Please enter employee id: ");
-					input = scan.nextInt();
-					if(Integer.toString((input)).charAt(0) == '1'){
-						LoggingUtil.logInfo("Welcome Teller: "+ input + "\n");
+					int empID = scan.nextInt();
+					if(Integer.toString((empID)).charAt(0) == '1'){
+						LoggingUtil.logInfo("\nWelcome Teller: "+ empID + "\n");
 						bankEmployee = new Employee();
-						bankEmployee.setEmployeeID(input);
+						bankEmployee.setEmployeeID(empID);
 						isFinished = true;
 					}
-					else if(Integer.toString((input)).charAt(0) == '5') {
-						LoggingUtil.logInfo("Welcome BankAdmin: "+ input + "\n");
+					else if(Integer.toString((empID)).charAt(0) == '5') {
+						LoggingUtil.logInfo("\nWelcome BankAdmin: "+ empID + "\n");
 						bankEmployee = new BankAdmin();
-						bankEmployee.setEmployeeID(input);
+						bankEmployee.setEmployeeID(empID);
 						isFinished = true;
 					}
 					else {
-						LoggingUtil.logWarn("Invalid employee id - try again.");
+						LoggingUtil.logWarn("Invalid employee id - try again.\n");
 						
 					}
 				}

@@ -1,6 +1,8 @@
 package com.revature.employee;
 
-public class BankAdmin extends Employee{
+import java.io.Serializable;
+
+public class BankAdmin extends Employee implements Serializable {
 
 	/**
 	 * 
@@ -12,6 +14,9 @@ public class BankAdmin extends Employee{
 		return "BankAdmin [employeeID=" + employeeID + "]";
 	}
 	
+	public BankAdmin() {
+		this.position = "BankAdmin";
+	}
 	
 
 }
