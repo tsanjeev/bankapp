@@ -19,11 +19,11 @@ public class Bank implements Serializable{
 	private static final String filename = "bankTransactions.dat";
 	List<Account> userAccounts = null;
 	private int numberOfAccounts;
-	
+	Scanner scan;
 	
 	public Bank() {
 		
-			
+		scan = new Scanner(System.in);
 		//userAccounts = readAccounts();
 		if(readAccounts() != null){
 			userAccounts = readAccounts();
@@ -31,7 +31,7 @@ public class Bank implements Serializable{
 		else
 			userAccounts = new ArrayList<Account>();
 		setNumberOfAccounts(getNumberOfAccounts());
-		displayPendingAccounts(userAccounts);
+		//displayPendingAccounts(userAccounts);
 		
 	}
 	
@@ -50,7 +50,7 @@ public class Bank implements Serializable{
 	}
 	
 	public void applySingle() {
-		Scanner scan = new Scanner(System.in);
+		//Scanner scan = new Scanner(System.in);
 		LoggingUtil.logInfo("Please enter your first name: ");
 		String firstName = scan.nextLine();
 		//LoggingUtil.logInfo("You entered: "+ firstName);
@@ -93,7 +93,7 @@ public class Bank implements Serializable{
 	}
 	
 	public Account customerLogin() throws BankExceptions{
-		Scanner scan = new Scanner(System.in);
+		//Scanner scan = new Scanner(System.in);
 		LoggingUtil.logInfo("Please enter a username: ");
 		String userName = scan.nextLine();
 		//LoggingUtil.logInfo("You entered: " + userName);
@@ -144,15 +144,30 @@ public class Bank implements Serializable{
 	}
 	
 	
-	public void withdraw(Account user, int amount) {
+	public void withdraw(Account user, int amount) throws BankExceptions {
+		user.withdraw(amount);
+	}
+	
+	public void deposit(Account user) throws BankExceptions {
+		int input = 0;
+		LoggingUtil.logInfo("Deposit amount : ");
+		input = scan.nextInt();
+		user.deposit(input);
 		
 	}
 	
-	public void deposit(Account user, int amount) {
-		
+	public void transfer(Account transferFrom, Account transferTo, int amount) throws BankExceptions {
+		transferFrom.transfer(amount, transferTo);
 	}
 	
-	public void transfer(Account transferTo, Account transferFrom, int amount) {
-		
+	public Account getAccount(int accountNum) throws BankExceptions {
+		Account acc = null;
+		for(int j = 0; j < userAccounts.size(); j++) {
+			if(accountNum == userAccounts.get(j).getAccountNumber())
+				acc = userAccounts.get(j);
+		}
+		if(acc == null)
+			throw new BankExceptions("Account not found");
+		return acc;
 	}
 }

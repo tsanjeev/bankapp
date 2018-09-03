@@ -9,7 +9,7 @@ import com.revature.util.LoggingUtil;
 
 public class Menu {
 
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 		Scanner scan = new Scanner(System.in);
 		Bank bank = new Bank();
 		int input = 0;
@@ -57,14 +57,46 @@ public class Menu {
 							input = 4;
 						}
 						if(Account.ACCOUNT_APPROVED.equals(user.getAccountStatus())) {
-							LoggingUtil.logInfo("Choose a transaction: \n");
-							LoggingUtil.logInfo("1: Depsoit\n");
-							LoggingUtil.logInfo("2: Withdraw\n");
-							LoggingUtil.logInfo("3: Transfer\n");
-							LoggingUtil.logInfo("4: Return to main menu\n");
-							input = scan.nextInt();
-							if(input == 1) {
-								
+							isSuccessful = false;
+							while(!isSuccessful)
+							{
+								LoggingUtil.logInfo("Choose a transaction: \n");
+								LoggingUtil.logInfo("1: Depsoit\n");
+								LoggingUtil.logInfo("2: Withdraw\n");
+								LoggingUtil.logInfo("3: Transfer\n");
+								LoggingUtil.logInfo("4: Return to main menu\n");
+								input = scan.nextInt();
+								if(input == 1) {
+									try {
+										bank.deposit(user);
+										isSuccessful = true;
+									}catch (BankExceptions e) {
+										LoggingUtil.logInfo("Invalid amount.\n");
+									}
+								}
+								if(input == 2) {
+									try {
+										
+										LoggingUtil.logInfo("Amount: ");
+										int withdrawAmount = scan.nextInt();
+										bank.withdraw(user , withdrawAmount);
+										isSuccessful = true;
+									}catch (BankExceptions e) {
+										LoggingUtil.logInfo("Invalid amount.\n");
+									}
+								}if(input == 3) {
+									try {
+										LoggingUtil.logInfo("Amount: ");
+										int transferAmount = scan.nextInt();
+										LoggingUtil.logInfo("Account num: ");
+										int accNum = scan.nextInt();
+										
+										bank.transfer(user, bank.getAccount(accNum), transferAmount);
+										isSuccessful = true;
+									}catch (BankExceptions e) {
+										LoggingUtil.logInfo("Invalid amount.\n");
+									}
+								}
 							}
 						}
 				

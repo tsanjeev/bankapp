@@ -9,6 +9,9 @@ import org.junit.Test;
 
 import com.revature.account.Account;
 import com.revature.account.SingleAccount;
+import com.revature.exception.BankExceptions;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 
 public class TestSingleAccount {
 
@@ -43,10 +46,60 @@ public class TestSingleAccount {
 	}
 
 	@Test
-	public void testDeposit() {
+	public void testDeposit() throws BankExceptions {
 		int depositAmount = 300;
 		user.deposit(depositAmount);
 		assertEquals(user.getBalance() , initialBalance + depositAmount);
+	}
+	
+	@Test(expected = BankExceptions.class)
+	public void testDepositNegativeAmount() throws BankExceptions {
+		int depositAmount = -300;
+		user.deposit(depositAmount);
+	}
+	
+	@Test(expected = BankExceptions.class)
+	public void testWithdrawtTooMuch() throws BankExceptions {
+		int amount = 6300;
+		user.withdraw(amount);
+	}
+	
+	@Test(expected = BankExceptions.class)
+	public void testTransferTooMuch() throws BankExceptions {
+		
+		Account userTwo = new SingleAccount();
+		userTwo.setBalance(initialBalance);
+		userTwo.setAccountNumber(2);
+		userTwo.setAccountType(Account.ACCOUNT_CHECKING);
+		userTwo.setAccountStatus(Account.ACCOUNT_APPROVED);
+		userTwo.setFirstName("John");
+		userTwo.setLastName("Doe");
+		userTwo.setUserName("qwerty");
+		userTwo.setPassword("12345");
+		int amount = 6300;
+		user.transfer(amount, userTwo);
+		assertEquals(user.getBalance() , initialBalance - amount);
+		assertEquals(userTwo.getBalance() , initialBalance + amount);
+		
+	}
+	
+	@Test
+	public void testTransfer() throws BankExceptions {
+		
+		Account userTwo = new SingleAccount();
+		userTwo.setBalance(initialBalance);
+		userTwo.setAccountNumber(2);
+		userTwo.setAccountType(Account.ACCOUNT_CHECKING);
+		userTwo.setAccountStatus(Account.ACCOUNT_APPROVED);
+		userTwo.setFirstName("John");
+		userTwo.setLastName("Doe");
+		userTwo.setUserName("qwerty");
+		userTwo.setPassword("12345");
+		int amount = 300;
+		user.transfer(amount, userTwo);
+		assertEquals(user.getBalance() , initialBalance - amount);
+		assertEquals(userTwo.getBalance() , initialBalance + amount);
+		
 	}
 	
 	@Test
@@ -57,7 +110,7 @@ public class TestSingleAccount {
 	}
 	
 	@Test
-	public void testWithdraw() {
+	public void testWithdraw() throws BankExceptions {
 		int amount = 100;
 		user.withdraw(amount);
 		assertEquals(user.getBalance(), initialBalance - amount);

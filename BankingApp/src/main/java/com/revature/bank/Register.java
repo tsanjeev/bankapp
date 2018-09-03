@@ -22,7 +22,6 @@ public  class Register {
 		user.setAccountNumber(accountNumber);
 		LoggingUtil.logInfo("Account successfully created - Status pending approval\n");
 		user.setLoggedOn(false);
-		//LoggingUtil.logInfo("\nLogging off");
 		return user;
 	}
 	

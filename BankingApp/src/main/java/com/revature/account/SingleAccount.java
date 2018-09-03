@@ -2,6 +2,8 @@ package com.revature.account;
 
 import java.io.Serializable;
 
+import com.revature.exception.BankExceptions;
+
 public class SingleAccount implements Account,  Serializable{
 	
 	
@@ -19,19 +21,24 @@ public class SingleAccount implements Account,  Serializable{
 	private String password;
 	private boolean isLoggedOn;
 	
-	public void deposit(int amount) {
+	public void deposit(int amount) throws BankExceptions {
 		// TODO Auto-generated method stub
-		balance += amount;
-		
+		if(amount <= 0)
+			throw new BankExceptions("Invalid deposit amount");
+		else
+			balance += amount;
 	}
 	public void setBalance(int amount) {
 		// TODO Auto-generated method stub
 		balance = amount;
 		
 	}
-	public void withdraw(int amount) {
+	public void withdraw(int amount) throws BankExceptions {
 		// TODO Auto-generated method stub
-		balance -= amount;
+		if(amount > balance)
+			throw new BankExceptions("Insufficient funds");
+		else
+			balance -= amount;
 		
 	}
 	public int getAccountNumber() {
@@ -96,7 +103,6 @@ public class SingleAccount implements Account,  Serializable{
 	public void setUserName(String userName) {
 		// TODO Auto-generated method stub
 		this.userName = userName;
-		
 	}
 	public String getPassword() {
 		// TODO Auto-generated method stub
@@ -115,6 +121,14 @@ public class SingleAccount implements Account,  Serializable{
 		// TODO Auto-generated method stub
 		this.isLoggedOn = activity;
 	}
+	
+	public void transfer(int amount, Account account) throws BankExceptions {
+		// TODO Auto-generated method stub
+		account.deposit(amount);
+		withdraw(amount);
+		
+	}
+	
 	
 	
 

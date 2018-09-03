@@ -2,13 +2,16 @@ package com.revature.account;
 
 import java.io.Serializable;
 
+import com.revature.exception.BankExceptions;
+
 public interface Account extends Serializable {
 	
 	
 	
-	public void deposit(int amount);
+	public void deposit(int amount) throws BankExceptions;
 	public void setBalance(int amount);
-	public void withdraw(int balance);
+	public void withdraw(int balance) throws BankExceptions;
+	public void transfer(int amount, Account accNum) throws BankExceptions;
 	public int getAccountNumber();
 	public void setAccountNumber(int accountNumber);
 	public int getBalance();
