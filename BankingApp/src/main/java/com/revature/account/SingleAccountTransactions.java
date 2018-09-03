@@ -17,10 +17,14 @@ public class SingleAccountTransactions {
 		Account user = null;
 		while(!isSuccessful)
 		{
+			LoggingUtil.logInfo("Please enter a username: ");
+			String userName = scan.nextLine();
+			LoggingUtil.logInfo("Please enter a password: ");
+			String password = scan.nextLine();
 			try {
-					user = bank.customerLogin();
+					user = bank.customerLogin(userName, password);
 					isSuccessful = true;
-					LoggingUtil.logInfo("Account found.\n");
+					LoggingUtil.logInfo("Account found.\n\n");
 				
 			} catch (BankExceptions e) {
 				LoggingUtil.logInfo("1: Try again: \n");
@@ -42,24 +46,37 @@ public class SingleAccountTransactions {
 			isSuccessful = false;
 			while(!isSuccessful)
 			{
-				LoggingUtil.logInfo("Choose a transaction: \n");
-				LoggingUtil.logInfo("1: Depsoit\n");
-				LoggingUtil.logInfo("2: Withdraw\n");
-				LoggingUtil.logInfo("3: Transfer\n");
-				LoggingUtil.logInfo("4: Return to main menu\n");
-				input = scan.nextInt();
+				boolean isValidKey = false;
+				while(!isValidKey)
+				{
+					LoggingUtil.logInfo("Choose a transaction: \n");
+					LoggingUtil.logInfo("1: Depsoit\n");
+					LoggingUtil.logInfo("2: Withdraw\n");
+					LoggingUtil.logInfo("3: Transfer\n");
+					LoggingUtil.logInfo("4: Return to main menu\n");
+					LoggingUtil.logInfo("Please choose an option: ");
+					input = scan.nextInt();
+					if(input > 0 && input <=4)
+						isValidKey = true;
+					else
+						LoggingUtil.logWarn("Invalid key - try again\n\n");
+				}
+				
 				if(input == 1) {
 					try {
-						bank.deposit(user);
+						System.out.println("");
+						LoggingUtil.logInfo("Deposit amount: ");
+						input = scan.nextInt();
+						bank.deposit(user, input);
 						isSuccessful = true;
 					}catch (BankExceptions e) {
-						LoggingUtil.logInfo("Invalid amount.\n");
+						LoggingUtil.logWarn("Invalid amount.\n");
 					}
 				}
 				if(input == 2) {
 					try {
 						
-						LoggingUtil.logInfo("Amount: ");
+						LoggingUtil.logInfo("Withdraw amount: ");
 						int withdrawAmount = scan.nextInt();
 						bank.withdraw(user , withdrawAmount);
 						isSuccessful = true;
@@ -79,6 +96,8 @@ public class SingleAccountTransactions {
 						LoggingUtil.logInfo("Invalid amount.\n");
 					}
 				}
+				if(input == 4)
+					isSuccessful = true;
 			}
 			
 		}

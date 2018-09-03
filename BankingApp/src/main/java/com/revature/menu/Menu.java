@@ -8,15 +8,21 @@ import com.revature.bank.Bank;
 import com.revature.employee.BankAdmin;
 import com.revature.employee.Employee;
 import com.revature.exception.BankExceptions;
+import com.revature.util.FileManager;
 import com.revature.util.LoggingUtil;
 
 public class Menu {
+	
+	
 
 	public static void main(String[] args)  {
 		Scanner scan = new Scanner(System.in);
-		Bank bank = new Bank();
+		Bank bank = null;
+		if(FileManager.initializeBank() != null)
+			bank = FileManager.initializeBank();
+		else
+			bank = new Bank();
 		int input = 0;
-		
 		while(input != 4)
 		{
 			LoggingUtil.logInfo("Welcome to The Bank.\n" );
@@ -25,84 +31,28 @@ public class Menu {
 			LoggingUtil.logInfo("3: Employee\n" );
 			LoggingUtil.logInfo("4: Exit\n");
 			LoggingUtil.logInfo("Please choose an option: ");
-			
 			input = scan.nextInt();
-			//LoggingUtil.logInfo("You chose option: "+ Integer.toString(input));
+			System.out.println("");
 			if(input == 1)
 			{
-				bank.applySingle();
+				scan.nextLine();
+				LoggingUtil.logInfo("Please enter your first name: ");
+				String firstName = scan.nextLine();
+				LoggingUtil.logInfo("Please enter your last name: ");
+				String lastName = scan.nextLine();
+				LoggingUtil.logInfo("Please create a user name: ");
+				String userName = scan.nextLine();
+				LoggingUtil.logInfo("Please create a password:  ");
+				String password = scan.nextLine();
+				LoggingUtil.logInfo("Please choose an account type Checking/Savings: ");
+				String accountType = scan.nextLine();
+				bank.applySingle(firstName, lastName, accountType, userName, password);
+				FileManager.saveAccounts(bank);
 				//bank.displayAccounts(bank.getPendingAccounts());
 			}
 			else if(input == 2) {
 				SingleAccountTransactions.performSingleAccountTrans(bank);
-				/*
-				boolean isSuccessful = false;
-				Account user = null;
-				while(!isSuccessful)
-				{
-					try {
-							user = bank.customerLogin();
-							isSuccessful = true;
-							LoggingUtil.logInfo("Account found.\n");
-						
-					} catch (BankExceptions e) {
-						LoggingUtil.logInfo("1: Try again: \n");
-						LoggingUtil.logInfo("2: Exit to main menu\n");
-						input = scan.nextInt();
-						if(input == 2) {
-							isSuccessful = true;
-							LoggingUtil.logInfo("Exiting to main menu\n");
-						}
-					}
-				}
-				if(!Account.ACCOUNT_APPROVED.equals(user.getAccountStatus())) {
-					LoggingUtil.logInfo("Tranasactions for this account are not available at this time.\n");
-					LoggingUtil.logInfo("Exiting console.\n");
-					input = 4;
-				}
-				if(Account.ACCOUNT_APPROVED.equals(user.getAccountStatus())) {
-					isSuccessful = false;
-					while(!isSuccessful)
-					{
-						LoggingUtil.logInfo("Choose a transaction: \n");
-						LoggingUtil.logInfo("1: Depsoit\n");
-						LoggingUtil.logInfo("2: Withdraw\n");
-						LoggingUtil.logInfo("3: Transfer\n");
-						LoggingUtil.logInfo("4: Return to main menu\n");
-						input = scan.nextInt();
-						if(input == 1) {
-							try {
-								bank.deposit(user);
-								isSuccessful = true;
-							}catch (BankExceptions e) {
-								LoggingUtil.logInfo("Invalid amount.\n");
-							}
-						}
-						if(input == 2) {
-							try {
-								
-								LoggingUtil.logInfo("Amount: ");
-								int withdrawAmount = scan.nextInt();
-								bank.withdraw(user , withdrawAmount);
-								isSuccessful = true;
-							}catch (BankExceptions e) {
-								LoggingUtil.logInfo("Invalid amount.\n");
-							}
-						}if(input == 3) {
-							try {
-								LoggingUtil.logInfo("Amount: ");
-								int transferAmount = scan.nextInt();
-								LoggingUtil.logInfo("Account num: ");
-								int accNum = scan.nextInt();
-								
-								bank.transfer(user, bank.getAccount(accNum), transferAmount);
-								isSuccessful = true;
-							}catch (BankExceptions e) {
-								LoggingUtil.logInfo("Invalid amount.\n");
-							}
-						}
-					}
-				}*/
+				
 			}
 			else if(input == 3){
 				boolean isFinished = false;
@@ -111,77 +61,28 @@ public class Menu {
 				{
 					LoggingUtil.logInfo("Please enter employee id: ");
 					int empID = scan.nextInt();
+					System.out.println("");
 					if(Integer.toString((empID)).charAt(0) == '1'){
-						LoggingUtil.logInfo("\nWelcome Teller: "+ empID + "\n");
+						LoggingUtil.logInfo("Welcome Teller: "+ empID + "\n");
 						bankEmployee = new Employee();
 						bankEmployee.setEmployeeID(empID);
 						isFinished = true;
 					}
 					else if(Integer.toString((empID)).charAt(0) == '5') {
-						LoggingUtil.logInfo("\nWelcome BankAdmin: "+ empID + "\n");
+						LoggingUtil.logInfo("Welcome BankAdmin: "+ empID + "\n");
 						bankEmployee = new BankAdmin();
 						bankEmployee.setEmployeeID(empID);
 						isFinished = true;
 					}
 					else {
-						LoggingUtil.logWarn("Invalid employee id - try again.\n");
+						LoggingUtil.logWarn("Invalid employee id - try again.\n\n");
 						
 					}
 				}
 				bankEmployee.employeeActions(bank);
-				/**
-				
-				while(!isFinished)
-				{
-					LoggingUtil.logInfo("1: Retrieve customer information\n");
-					LoggingUtil.logInfo("2: Approve or deny pending accounts\n");
-					LoggingUtil.logInfo("3: Return to main menu\n");
-					LoggingUtil.logInfo("Please choose an action: ");
-					input = scan.nextInt();
-					if(input == 1) {
-						LoggingUtil.logInfo("Enter account numbuer: ");
-						int accountNumber = scan.nextInt();
-						try {
-								bankEmployee.getCustomerInfo(bank.getAccount(accountNumber));
-						} catch (BankExceptions e) {
-							LoggingUtil.logWarn("Account not found\n");
-						} 
-					}
-					else if(input == 2) {
-						LoggingUtil.logInfo("Pending accounts: \n");
-						if(bank.getPendingAccounts().size() > 1)
-						{
-							bank.displayPendingAccounts(bank.getPendingAccounts());
-							LoggingUtil.logInfo("Choose account to approve or deny\n");
-							LoggingUtil.logInfo("Account number: ");
-							int accountNum = scan.nextInt();
-							LoggingUtil.logInfo("1: approve\n");
-							LoggingUtil.logInfo("2: deny\n");
-							LoggingUtil.logInfo("Please choose an action: ");
-							input = scan.nextInt();
-							if(input == 1) {
-								try {
-									bankEmployee.approveApplication(bank.getAccount(accountNum));
-								} catch (BankExceptions e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-							else if(input == 2) {
-								try {
-									bankEmployee.denyApplication(bank.getAccount(accountNum));
-								} catch (BankExceptions e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-							bank.saveAccounts();
-						}
-					}
-					else if(input == 3) {
-						isFinished = true;
-					}**/
-				}
+				FileManager.saveAccounts(bank);
+	
+			}
 			
 		}
 				
