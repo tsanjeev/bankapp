@@ -99,49 +99,59 @@ public class Menu {
 						}
 					}
 				}
-
-				
 			}
 			else if(input == 3){
-				LoggingUtil.logInfo("1: Retrieve customer information\n");
-				LoggingUtil.logInfo("2: Approve or deny pending accounts\n");
-				LoggingUtil.logInfo("3: Return to main menu\n");
-				LoggingUtil.logInfo("Please choose an action: ");
-				input = scan.nextInt();
-				if(input == 1) {
-					LoggingUtil.logInfo("Enter account numbuer: ");
-					int accountNumber = scan.nextInt();
-					try {
-							Employee.getCustomerInfo(bank.getAccount(accountNumber));
-					} catch (BankExceptions e) {
-						LoggingUtil.logWarn("Account not found\n");
-					} 
-				}
-				else if(input == 2) {
-					LoggingUtil.logInfo("Pending accounts: \n");
-					bank.displayPendingAccounts(bank.getPendingAccounts());
-					LoggingUtil.logInfo("Choose accounts to approve or deny\n");
-					LoggingUtil.logInfo("Account number: ");
-					int accountNum = scan.nextInt();
-					LoggingUtil.logInfo("Approve or deny");
-					String action = scan.nextLine();
-					if(Account.ACCOUNT_APPROVED.equalsIgnoreCase(action)) {
+				boolean isFinished = false;
+				while(!isFinished)
+				{
+					LoggingUtil.logInfo("1: Retrieve customer information\n");
+					LoggingUtil.logInfo("2: Approve or deny pending accounts\n");
+					LoggingUtil.logInfo("3: Return to main menu\n");
+					LoggingUtil.logInfo("Please choose an action: ");
+					input = scan.nextInt();
+					if(input == 1) {
+						LoggingUtil.logInfo("Enter account numbuer: ");
+						int accountNumber = scan.nextInt();
 						try {
-							Employee.approveApplication(bank.getAccount(accountNum));
+								Employee.getCustomerInfo(bank.getAccount(accountNumber));
 						} catch (BankExceptions e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							LoggingUtil.logWarn("Account not found\n");
+						} 
+					}
+					else if(input == 2) {
+						LoggingUtil.logInfo("Pending accounts: \n");
+						if(bank.getPendingAccounts().size() > 1)
+						{
+							bank.displayPendingAccounts(bank.getPendingAccounts());
+							LoggingUtil.logInfo("Choose account to approve or deny\n");
+							LoggingUtil.logInfo("Account number: ");
+							int accountNum = scan.nextInt();
+							LoggingUtil.logInfo("1: approve\n");
+							LoggingUtil.logInfo("2: deny\n");
+							LoggingUtil.logInfo("Please choose an action: ");
+							input = scan.nextInt();
+							if(input == 1) {
+								try {
+									Employee.approveApplication(bank.getAccount(accountNum));
+								} catch (BankExceptions e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+							else if(input == 2) {
+								try {
+									Employee.denyApplication(bank.getAccount(accountNum));
+								} catch (BankExceptions e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+							bank.saveAccounts();
 						}
 					}
-					else if(Account.ACCOUNT_DENIED.equalsIgnoreCase(action)) {
-						try {
-							Employee.denyApplication(bank.getAccount(accountNum));
-						} catch (BankExceptions e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					else if(input == 3) {
+						isFinished = true;
 					}
-					
 				}
 			}
 		}

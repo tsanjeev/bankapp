@@ -69,7 +69,7 @@ public class Bank implements Serializable{
 		
 		incrementAccountNumbers();
 		userAccounts.add(Register.registerSingle(firstName, lastName, accountType, userName, password, numberOfAccounts));
-		saveAccounts(userAccounts);
+		saveAccounts();
 		LoggingUtil.logInfo("logging off\n\n");
 	}
 	
@@ -84,7 +84,8 @@ public class Bank implements Serializable{
 				pendingAccounts.add(userAccounts.get(j));
 			
 		}
-		System.out.println(pendingAccounts.size());
+		if(pendingAccounts.size() == 0)
+			LoggingUtil.logWarn("No pending acounts at this time.\n");
 		return pendingAccounts;
 	}
 	
@@ -117,9 +118,9 @@ public class Bank implements Serializable{
 		return user;
 	}
 	
-	public void saveAccounts(List<Account> bankAccounts) {
+	public void saveAccounts() {
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))){
-			oos.writeObject(bankAccounts);
+			oos.writeObject(userAccounts);
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}catch (IOException e) {
