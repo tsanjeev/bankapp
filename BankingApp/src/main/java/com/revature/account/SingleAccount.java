@@ -12,7 +12,7 @@ public class SingleAccount extends Account implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -8482258227837614516L;
-	
+	private String accType;
 	
 	public void deposit(int amount) throws BankExceptions {
 		// TODO Auto-generated method stub
@@ -29,6 +29,15 @@ public class SingleAccount extends Account implements Serializable{
 		else
 			balance -= amount;
 		
+	}
+	
+	public void setAccType(String name)
+	{
+		this.accType = name;
+	}
+	
+	public String getAccType() {
+		return accType;
 	}
 	
 	@Override

@@ -3,7 +3,7 @@ package com.revature.menu;
 import java.util.Scanner;
 
 import com.revature.account.Account;
-import com.revature.account.SingleAccountTransactions;
+import com.revature.account.AccountTransactions;
 import com.revature.bank.Bank;
 import com.revature.employee.BankAdmin;
 import com.revature.employee.Employee;
@@ -35,23 +35,64 @@ public class Menu {
 			System.out.println("");
 			if(input == 1)
 			{
-				scan.nextLine();
-				LoggingUtil.logInfo("Please enter your first name: ");
-				String firstName = scan.nextLine();
-				LoggingUtil.logInfo("Please enter your last name: ");
-				String lastName = scan.nextLine();
-				LoggingUtil.logInfo("Please create a user name: ");
-				String userName = scan.nextLine();
-				LoggingUtil.logInfo("Please create a password:  ");
-				String password = scan.nextLine();
-				LoggingUtil.logInfo("Please choose an account type Checking/Savings: ");
-				String accountType = scan.nextLine();
-				bank.applySingle(firstName, lastName, accountType, userName, password);
-				FileManager.saveAccounts(bank);
-				//bank.displayAccounts(bank.getPendingAccounts());
+				//scan.nextLine();
+				
+				boolean isValidKey = false;
+				while(!isValidKey) {
+					LoggingUtil.logInfo("Which kind of account would you like to apply for?\n");
+					LoggingUtil.logInfo("1: Regular account\n");
+					LoggingUtil.logInfo("2: Joint account\n");
+					LoggingUtil.logInfo("Please choose an option: ");
+					input = scan.nextInt();
+					if(input == 1 || input ==2) {
+						isValidKey = true;
+					}
+					else {
+						LoggingUtil.logWarn("Invalid entry - try again\n\n");
+					}
+					scan.nextLine();
+				}
+				if(input == 1) {
+				
+					LoggingUtil.logInfo("Please enter your first name: ");
+					String firstName = scan.nextLine();
+					LoggingUtil.logInfo("Please enter your last name: ");
+					String lastName = scan.nextLine();
+					LoggingUtil.logInfo("Please create a user name: ");
+					String userName = scan.nextLine();
+					LoggingUtil.logInfo("Please create a password:  ");
+					String password = scan.nextLine();
+					LoggingUtil.logInfo("Please choose an account type Checking/Savings: ");
+					String accountType = scan.nextLine();
+					bank.applySingle(firstName, lastName, accountType, userName, password);
+					FileManager.saveAccounts(bank);
+					//bank.displayAccounts(bank.getPendingAccounts());
+				}
+				else if(input == 2) {
+					LoggingUtil.logInfo("Please enter first user's name: ");
+					String firstName = scan.nextLine();
+					LoggingUtil.logInfo("Please enter first user's last name: ");
+					String lastName = scan.nextLine();
+					LoggingUtil.logInfo("Please create first user's username: ");
+					String userName = scan.nextLine();
+					LoggingUtil.logInfo("Please create first user's password: ");
+					String password = scan.nextLine();
+					LoggingUtil.logInfo("Please enter second user's first name: ");
+					String secondFirstName = scan.nextLine();
+					LoggingUtil.logInfo("Please enter second user's last name: ");
+					String secondLastName = scan.nextLine();
+					LoggingUtil.logInfo("Please create second user's username: ");
+					String secondUserName = scan.nextLine();
+					LoggingUtil.logInfo("Please create second user's password:  ");
+					String secondPassword = scan.nextLine();
+					LoggingUtil.logInfo("Please choose an account type Checking/Savings: ");
+					String accountType = scan.nextLine();
+					bank.applyJoint(firstName, lastName, userName, password, secondFirstName, secondLastName, secondUserName, secondPassword, accountType );
+					FileManager.saveAccounts(bank);
+				}
 			}
 			else if(input == 2) {
-				SingleAccountTransactions.performSingleAccountTrans(bank);
+				AccountTransactions.performAccountTrans(bank);
 				FileManager.saveAccounts(bank);
 				
 			}

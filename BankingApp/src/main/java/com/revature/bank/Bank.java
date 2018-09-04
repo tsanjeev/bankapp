@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.io.*;
 
 import com.revature.account.Account;
+import com.revature.account.JointAccount;
 import com.revature.account.SingleAccount;
 import com.revature.employee.BankAdmin;
 import com.revature.employee.Employee;
@@ -21,11 +22,15 @@ public class Bank implements Serializable{
 	private static final long serialVersionUID = -3866137718288831030L;
 	
 	List<Account> userAccounts = null;
+	List<JointAccount> jointAcc = null;
 	private int numberOfAccounts;
+	private int numberOfJointAccounts;
 	
 	public Bank() {
 		userAccounts = new ArrayList<Account>();
+		jointAcc = new ArrayList<JointAccount>();
 		numberOfAccounts = 0;
+		numberOfJointAccounts = 0;
 	}
 	
 	public int getNumberOfAccounts() {
@@ -41,6 +46,14 @@ public class Bank implements Serializable{
 		numberOfAccounts++;
 	}
 	
+	public void incrementJointAccountNumbers() {
+		numberOfJointAccounts++;
+	}
+	
+	public int getNumOfJointAccount() {
+		return this.numberOfJointAccounts;
+	}
+	
 	public void applySingle(String firstName, String lastName, String accountType, String userName, String password) {
 		
 		incrementAccountNumbers();
@@ -48,15 +61,23 @@ public class Bank implements Serializable{
 		LoggingUtil.logInfo("logging off\n\n");
 	}
 	
-	public void applyJoint() {
-		
+	public void applyJoint(String firstName, String lastName, String userName, String password, String secondFirstName, 
+			String secondLastName, String secondUserName, String secondPassword, String accountType) {
+		incrementAccountNumbers();
+		userAccounts.add(Register.registerJoint(firstName, lastName, userName, password, secondFirstName, secondLastName, secondUserName, secondPassword, accountType, getNumberOfAccounts()));
+		//jointAcc.add(Register.registerJoint(firstName, lastName, userName, password, secondFirstName, secondLastName, secondUserName, secondPassword, accountType, getNumberJointOfAccounts()));
+		LoggingUtil.logInfo("logging off\n\n");
 	}
 	
 	public List<Account> getPendingAccounts(){
 		List<Account> pendingAccounts = new ArrayList<Account>();
 		for(int j = 0; j < userAccounts.size(); j++) {
+			//System.out.println(userAccounts.toString());
 			if(userAccounts.get(j).getAccountStatus().equals(Account.ACCOUNT_PENDING))
+			{
 				pendingAccounts.add(userAccounts.get(j));
+				
+			}
 			
 		}
 		if(pendingAccounts.size() == 0)
@@ -70,7 +91,7 @@ public class Bank implements Serializable{
 		}
 		
 	}
-	
+	/*
 	public Account customerLogin(String userName, String password) throws BankExceptions{
 		Account user = null;
 		for(int x = 0; x < userAccounts.size(); x++) {
@@ -84,7 +105,43 @@ public class Bank implements Serializable{
 		}
 		
 		return user;
-	}	
+	}	*/
+	public Account customerLogin(String userName, String password) throws BankExceptions{
+		Account user = null;
+		//displayAccounts(userAccounts);
+		for(int x = 0; x < userAccounts.size(); x++) 
+		{
+			if("single".equals(userAccounts.get(x).getAccType()))
+			{
+				if(userAccounts.get(x).getUserName().equals(userName) && (userAccounts.get(x).getPassword().equals(password))) {
+					user = userAccounts.get(x);
+					
+				}
+			}
+				else
+					LoggingUtil.logError("Account not found.\n\n");	
+			}
+			/*else 
+				if("joint".equals(userAccounts.get(x).getAccType())){
+					if(userAccounts.get(x) instanceof JointAccount)
+					System.out.println(((JointAccount)userAccounts.get(x)).getFirstUserName());
+				//*f((userAccounts.get(x)).getFirstUserName().equals(userName) &&
+					//(( userAccounts.get(x)).getPasswordOne().equals(password)) ||
+					//(( userAccounts.get(x)).getSecondUserName().equals(userName) 
+							//&& (( userAccounts.get(x)).getPasswordTwo().equals(password)))){
+				if((userName.equals(userAccounts.get(x).getFirstUserName())&&
+					( password.equals(userAccounts.get(x).getPasswordOne())))){
+					System.out.println("hello");
+						user = userAccounts.get(x);
+			}*/
+		
+		
+		if(user == null) {
+			throw new BankExceptions("Username / Password not found.\n\n");
+		}
+	
+		return user;
+}
 	
 	public void withdraw(Account user, int amount) throws BankExceptions {
 		user.withdraw(amount);

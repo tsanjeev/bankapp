@@ -162,8 +162,8 @@ public class Employee implements Serializable {
 									e.printStackTrace();
 								}
 							}
-						isValid = true;
-						}
+						
+						}isValid = true;
 				}
 			}
 			else if(input == 3) {

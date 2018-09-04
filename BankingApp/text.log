@@ -1,0 +1,21 @@
+2018-09-04 03:57:43 INFO  root:22 - Welcome to The Bank.
+2018-09-04 03:57:43 INFO  root:22 - 1: New Customer
+2018-09-04 03:57:43 INFO  root:22 - 2: Returning Customer
+2018-09-04 03:57:43 INFO  root:22 - 3: Employee
+2018-09-04 03:57:43 INFO  root:22 - 4: Exit
+2018-09-04 03:57:43 INFO  root:22 - Please choose an option: 2018-09-04 03:57:49 INFO  root:22 - Please enter a username: 2018-09-04 03:57:51 INFO  root:22 - Please enter a password: 2018-09-04 03:57:52 INFO  root:22 - SingleAccount [balance=1000, accountNumber=1, accountType=CHECKING, accountStatus=APPROVED, firstName=john, lastName=john, userName=john, password=john, isLoggedOn=false]
+2018-09-04 03:57:52 INFO  root:22 - JointAccount [firstFirstName=jack, firstLastName=jack, firstUserName=jack, firstPassword=jack, secondFirstName=jack, secondLastName=jack, secondUserName=jack, secondPassword=jack, balance=0, accountNumber=2, accountType=SAVINGS, accountStatus=APPROVED]
+2018-09-04 03:57:52 INFO  root:22 - JointAccount [firstFirstName=jack, firstLastName=jack, firstUserName=jack, firstPassword=jack, secondFirstName=jack, secondLastName=jack, secondUserName=jack, secondPassword=jack, balance=0, accountNumber=3, accountType=CHECKING, accountStatus=PENDING]
+2018-09-04 03:57:52 ERROR root:14 - Account not found.
+
+2018-09-04 03:57:52 ERROR root:14 - Username / Password not found.
+
+2018-09-04 03:57:52 INFO  root:22 - 1: Try again: 
+2018-09-04 03:57:52 INFO  root:22 - 2: Exit to main menu
+2018-09-04 03:57:52 INFO  root:22 - Please choose an option: 2018-09-04 03:57:55 INFO  root:22 - Exiting to main menu
+2018-09-04 03:57:55 INFO  root:22 - Welcome to The Bank.
+2018-09-04 03:57:55 INFO  root:22 - 1: New Customer
+2018-09-04 03:57:55 INFO  root:22 - 2: Returning Customer
+2018-09-04 03:57:55 INFO  root:22 - 3: Employee
+2018-09-04 03:57:55 INFO  root:22 - 4: Exit
+2018-09-04 03:57:55 INFO  root:22 - Please choose an option: 

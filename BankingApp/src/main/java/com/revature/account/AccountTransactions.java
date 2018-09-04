@@ -6,10 +6,10 @@ import com.revature.bank.Bank;
 import com.revature.exception.BankExceptions;
 import com.revature.util.LoggingUtil;
 
-public class SingleAccountTransactions {
+public class AccountTransactions {
 
 	
-	public static void performSingleAccountTrans(Bank bank)
+	public static void performAccountTrans(Bank bank)
 	{
 		Scanner scan = new Scanner(System.in);
 		int input = 0;
@@ -17,12 +17,14 @@ public class SingleAccountTransactions {
 		Account user = null;
 		while(!isSuccessful)
 		{
+			
 			LoggingUtil.logInfo("Please enter a username: ");
 			String userName = scan.nextLine();
 			LoggingUtil.logInfo("Please enter a password: ");
 			String password = scan.nextLine();
 			try {
 					user = bank.customerLogin(userName, password);
+					System.out.println(user);
 					isSuccessful = true;
 					LoggingUtil.logInfo("Account found.\n\n");
 				
@@ -34,6 +36,12 @@ public class SingleAccountTransactions {
 				if(input == 2) {
 					isSuccessful = true;
 					LoggingUtil.logInfo("Exiting to main menu\n");
+					System.out.println("");
+					return;
+				}
+				else
+				{
+					scan.nextLine();
 				}
 			}
 		}
@@ -42,7 +50,7 @@ public class SingleAccountTransactions {
 			LoggingUtil.logInfo("Exiting console.\n");
 			input = 4;
 		}
-		if(Account.ACCOUNT_APPROVED.equals(user.getAccountStatus())) {
+		else if(Account.ACCOUNT_APPROVED.equals(user.getAccountStatus())) {
 			isSuccessful = false;
 			while(!isSuccessful)
 			{

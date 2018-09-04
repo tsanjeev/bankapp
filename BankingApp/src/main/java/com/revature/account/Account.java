@@ -20,6 +20,16 @@ public class Account implements Serializable {
 	protected String userName;
 	protected String password;
 	protected boolean isLoggedOn;
+	protected String accType;
+	
+	public void setAccType(String name)
+	{
+		this.accType = name;
+	}
+	
+	public String getAccType() {
+		return accType;
+	}
 	
 	
 	private static final long serialVersionUID = 3417438856095899877L;
@@ -101,6 +111,21 @@ public class Account implements Serializable {
 	public static final String ACCOUNT_CHECKING = "CHECKING";
 	public static final String ACCOUNT_SAVINGS = "SAVINGS";
 	public static final String ACCOUNT_PENDING = "PENDING";
+	public  String getFirstUserName() {
+		return null;
+	}
+	public String getPasswordOne() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public String getSecondUserName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public String getPasswordTwo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 		
 }

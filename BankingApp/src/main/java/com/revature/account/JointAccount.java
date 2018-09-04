@@ -1,8 +1,10 @@
 package com.revature.account;
 
+import java.io.Serializable;
+
 import com.revature.exception.BankExceptions;
 
-public class JointAccount extends Account {
+public class JointAccount extends Account implements Serializable{
 
 	private String firstFirstName;
 	private String firstLastName;
@@ -13,6 +15,7 @@ public class JointAccount extends Account {
 	private String secondLastName;
 	private String secondUserName;
 	private String secondPassword;
+	private String accType;
 	/**
 	 * 
 	 */
@@ -20,10 +23,18 @@ public class JointAccount extends Account {
 
 	
 	
-	
+	 
+	@Override
+	public String toString() {
+		return "JointAccount [firstFirstName=" + firstFirstName + ", firstLastName=" + firstLastName
+				+ ", firstUserName=" + firstUserName + ", firstPassword=" + firstPassword + ", secondFirstName="
+				+ secondFirstName + ", secondLastName=" + secondLastName + ", secondUserName=" + secondUserName
+				+ ", secondPassword=" + secondPassword + ", balance=" + balance + ", accountNumber=" + accountNumber
+				+ ", accountType=" + accountType + ", accountStatus=" + accountStatus + "]";
+	}
+
 	public JointAccount(String firstFirstName, String firstLastName, String firstUserName, String firstPassword,
 			String secondFirstName, String secondLastName, String secondUserName, String secondPassword) {
-		super();
 		this.firstFirstName = firstFirstName;
 		this.firstLastName = firstLastName;
 		this.firstUserName = firstUserName;
@@ -37,6 +48,14 @@ public class JointAccount extends Account {
 	public void deposit(int amount) throws BankExceptions {
 		// TODO Auto-generated method stub
 		
+	}
+	public void setAccType(String name)
+	{
+		this.accType = name;
+	}
+	
+	public String getAccType() {
+		return accType;
 	}
 
 	public void setBalance(int amount) {
@@ -92,6 +111,7 @@ public class JointAccount extends Account {
 	public String getFirstUserName() {
 		// TODO Auto-generated method stub
 		return this.firstUserName;
+		
 	}	
 	
 	public void setUserNames(String userNameOne, String userNameTwo) {

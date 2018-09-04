@@ -21,6 +21,7 @@ public  class Register {
 		user.setUserName(userName);
 		user.setPassword(password);
 		user.setAccountNumber(accountNumber);
+		user.setAccType("single");
 		LoggingUtil.logInfo("Account successfully created - Status pending approval\n");
 		user.setLoggedOn(false);
 		return user;
@@ -39,6 +40,7 @@ public  class Register {
 		joint.setAccountNumber(accountNumber);
 		LoggingUtil.logInfo("Account successfully created - Status pending approval\n");
 		joint.setLoggedOn(false);
+		joint.setAccType("joint");
 		return joint;
 	}
 }
