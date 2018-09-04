@@ -52,6 +52,7 @@ public class Menu {
 			}
 			else if(input == 2) {
 				SingleAccountTransactions.performSingleAccountTrans(bank);
+				FileManager.saveAccounts(bank);
 				
 			}
 			else if(input == 3){

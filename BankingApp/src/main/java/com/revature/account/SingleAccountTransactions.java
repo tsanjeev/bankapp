@@ -75,7 +75,7 @@ public class SingleAccountTransactions {
 				}
 				if(input == 2) {
 					try {
-						
+						System.out.println("");
 						LoggingUtil.logInfo("Withdraw amount: ");
 						int withdrawAmount = scan.nextInt();
 						bank.withdraw(user , withdrawAmount);
@@ -98,6 +98,7 @@ public class SingleAccountTransactions {
 				}
 				if(input == 4)
 					isSuccessful = true;
+				System.out.println("");
 			}
 			
 		}

@@ -88,6 +88,7 @@ public class Bank implements Serializable{
 	
 	public void withdraw(Account user, int amount) throws BankExceptions {
 		user.withdraw(amount);
+		LoggingUtil.logInfo("New balance " + user.getBalance() +"\n\n");
 	}
 	
 	public void deposit(Account user, int amount) throws BankExceptions {
@@ -98,6 +99,8 @@ public class Bank implements Serializable{
 	
 	public void transfer(Account transferFrom, Account transferTo, int amount) throws BankExceptions {
 		transferFrom.transfer(amount, transferTo);
+		LoggingUtil.logInfo("Account balance (sender): " +transferFrom.getBalance() + "\n");
+		LoggingUtil.logInfo("Account balance (recipient): " + transferTo.getBalance() + "\n");
 	}
 	
 	public Account getAccount(int accountNum) throws BankExceptions {

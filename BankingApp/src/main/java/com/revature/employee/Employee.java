@@ -164,8 +164,6 @@ public class Employee implements Serializable {
 							}
 						isValid = true;
 						}
-						
-					
 				}
 			}
 			else if(input == 3) {
