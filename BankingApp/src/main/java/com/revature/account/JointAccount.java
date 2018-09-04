@@ -29,8 +29,7 @@ public class JointAccount extends Account implements Serializable{
 		return "JointAccount [firstFirstName=" + firstFirstName + ", firstLastName=" + firstLastName
 				+ ", firstUserName=" + firstUserName + ", firstPassword=" + firstPassword + ", secondFirstName="
 				+ secondFirstName + ", secondLastName=" + secondLastName + ", secondUserName=" + secondUserName
-				+ ", secondPassword=" + secondPassword + ", balance=" + balance + ", accountNumber=" + accountNumber
-				+ ", accountType=" + accountType + ", accountStatus=" + accountStatus + "]";
+				+ ", secondPassword=" + secondPassword + ", accType=" + accType + "]";
 	}
 
 	public JointAccount(String firstFirstName, String firstLastName, String firstUserName, String firstPassword,
