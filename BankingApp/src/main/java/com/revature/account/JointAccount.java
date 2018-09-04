@@ -26,10 +26,11 @@ public class JointAccount extends Account implements Serializable{
 	 
 	@Override
 	public String toString() {
-		return "JointAccount [firstFirstName=" + firstFirstName + ", firstLastName=" + firstLastName
-				+ ", firstUserName=" + firstUserName + ", firstPassword=" + firstPassword + ", secondFirstName="
-				+ secondFirstName + ", secondLastName=" + secondLastName + ", secondUserName=" + secondUserName
-				+ ", secondPassword=" + secondPassword + ", accType=" + accType + "]";
+		return "JointAccount [balance=" + balance + ", accountNumber=" + accountNumber + ", accountStatus="
+				+ accountStatus + ", accountType=" + accountType + ", firstLastName=" + firstLastName
+				+ ", firstFirstName=" + firstFirstName + ", firstPassword=" + firstPassword + ", firstUserName="
+				+ firstUserName + ", secondFirstName=" + secondFirstName + ", secondLastName=" + secondLastName
+				+ ", secondPassword=" + secondPassword + ", secondUserName=" + secondUserName + "]";
 	}
 
 	public JointAccount(String firstFirstName, String firstLastName, String firstUserName, String firstPassword,
@@ -44,10 +45,8 @@ public class JointAccount extends Account implements Serializable{
 		this.secondPassword = secondPassword;
 	}
 
-	public void deposit(int amount) throws BankExceptions {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
 	public void setAccType(String name)
 	{
 		this.accType = name;
@@ -55,21 +54,6 @@ public class JointAccount extends Account implements Serializable{
 	
 	public String getAccType() {
 		return accType;
-	}
-
-	public void setBalance(int amount) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void withdraw(int balance) throws BankExceptions {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void transfer(int amount, Account accNum) throws BankExceptions {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public String getFirstFirstName() {

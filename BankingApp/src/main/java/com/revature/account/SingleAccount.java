@@ -19,12 +19,12 @@ public class SingleAccount extends Account implements Serializable{
 		if(amount <= 0)
 			throw new BankExceptions("Invalid deposit amount");
 		else
-			balance += amount;
+			this.balance += amount;
 	}
 	
 	public void withdraw(int amount) throws BankExceptions {
 		// TODO Auto-generated method stub
-		if(amount > balance)
+		if(amount > this.balance)
 			throw new BankExceptions("Insufficient funds\n");
 		else
 			balance -= amount;

@@ -24,7 +24,6 @@ public class AccountTransactions {
 			String password = scan.nextLine();
 			try {
 					user = bank.customerLogin(userName, password);
-					System.out.println(user);
 					isSuccessful = true;
 					LoggingUtil.logInfo("Account found.\n\n");
 				

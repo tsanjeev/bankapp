@@ -3,6 +3,7 @@ package com.revature.account;
 import java.io.Serializable;
 
 import com.revature.exception.BankExceptions;
+import com.revature.util.LoggingUtil;
 
 public class Account implements Serializable {
 	
@@ -33,15 +34,37 @@ public class Account implements Serializable {
 	
 	
 	private static final long serialVersionUID = 3417438856095899877L;
-	public void deposit(int amount) throws BankExceptions {
+	public void transfer(int amount, Account account) throws BankExceptions {
+		// TODO Auto-generated method stub
+		boolean isSuccessful = true;
+		try {
+			withdraw(amount);
+		} catch (BankExceptions e){
+			LoggingUtil.logError("Invalid withdraw amount\n");
+			isSuccessful = false;
+		}
+		if(isSuccessful)
+			account.deposit(amount);
 	}
 	public void setBalance(int amount) {
 			// TODO Auto-generated method stub
 			balance = amount;
 	}
-	public void withdraw(int balance) throws BankExceptions {
+	public void deposit(int amount) throws BankExceptions {
+		// TODO Auto-generated method stub
+		if(amount <= 0)
+			throw new BankExceptions("Invalid deposit amount");
+		else
+			balance += amount;
 	}
-	public void transfer(int amount, Account accNum) throws BankExceptions {
+	
+	public void withdraw(int amount) throws BankExceptions {
+		// TODO Auto-generated method stub
+		if(amount > balance)
+			throw new BankExceptions("Insufficient funds\n");
+		else
+			balance -= amount;
+		
 	}
 	public int getAccountNumber() {
 		// TODO Auto-generated method stub

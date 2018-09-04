@@ -58,7 +58,6 @@ public class Bank implements Serializable{
 			String secondLastName, String secondUserName, String secondPassword, String accountType) {
 		incrementAccountNumbers();
 		userAccounts.add(Register.registerJoint(firstName, lastName, userName, password, secondFirstName, secondLastName, secondUserName, secondPassword, accountType, getNumberOfAccounts()));
-		//jointAcc.add(Register.registerJoint(firstName, lastName, userName, password, secondFirstName, secondLastName, secondUserName, secondPassword, accountType, getNumberJointOfAccounts()));
 		LoggingUtil.logInfo("logging off\n\n");
 	}
 	
@@ -92,9 +91,6 @@ public class Bank implements Serializable{
 					(( userAccounts.get(x)).getPasswordOne().equals(password)) ||
 					(( userAccounts.get(x)).getSecondUserName().equals(userName) 
 							&& (( userAccounts.get(x)).getPasswordTwo().equals(password)))){
-				//if((userName.equals(userAccounts.get(x).getFirstUserName())&&
-					//( password.equals(userAccounts.get(x).getPasswordOne())))){
-					
 						user = userAccounts.get(x);
 				}
 			}

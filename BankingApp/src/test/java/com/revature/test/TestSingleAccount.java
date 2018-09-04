@@ -64,22 +64,22 @@ public class TestSingleAccount {
 		user.withdraw(amount);
 	}
 	
-	@Test(expected = BankExceptions.class)
+	@Test
 	public void testTransferTooMuch() throws BankExceptions {
 		
 		Account userTwo = new SingleAccount();
 		userTwo.setBalance(initialBalance);
 		userTwo.setAccountNumber(2);
 		userTwo.setAccountType(Account.ACCOUNT_CHECKING);
-		userTwo.setAccountStatus(Account.ACCOUNT_APPROVED);
+		userTwo.setAccountStatus(Account.ACCOUNT_PENDING);
 		userTwo.setFirstName("John");
 		userTwo.setLastName("Doe");
 		userTwo.setUserName("qwerty");
 		userTwo.setPassword("12345");
 		int amount = 6300;
 		user.transfer(amount, userTwo);
-		assertEquals(user.getBalance() , initialBalance - amount);
-		assertEquals(userTwo.getBalance() , initialBalance + amount);
+		assertEquals(user.getBalance() , initialBalance);
+		assertEquals(userTwo.getBalance() , initialBalance);
 		
 	}
 	
