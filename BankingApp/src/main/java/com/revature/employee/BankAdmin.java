@@ -32,14 +32,22 @@ public class BankAdmin extends Employee implements Serializable {
 		int input = 0;
 		while(!isFinished)
 		{
-			LoggingUtil.logInfo("1: Retrieve customer information\n");
-			LoggingUtil.logInfo("2: Approve or deny pending accounts\n");
-			LoggingUtil.logInfo("3: Deposit\n");
-			LoggingUtil.logInfo("4: Withdraw\n");
-			LoggingUtil.logInfo("5) Transfer\n");
-			LoggingUtil.logInfo("6: Return to main menu\n");
-			LoggingUtil.logInfo("Please choose an action: ");
-			input = scan.nextInt();
+			boolean isInputValid = false;
+			while(!isInputValid)
+			{
+				LoggingUtil.logInfo("1: Retrieve customer information\n");
+				LoggingUtil.logInfo("2: Approve or deny pending accounts\n");
+				LoggingUtil.logInfo("3: Deposit\n");
+				LoggingUtil.logInfo("4: Withdraw\n");
+				LoggingUtil.logInfo("5) Transfer\n");
+				LoggingUtil.logInfo("6: Return to main menu\n");
+				LoggingUtil.logInfo("Please choose an action: ");
+				input = scan.nextInt();
+				if(input > 0 && input <= 6)
+					isInputValid = true;
+				else
+					LoggingUtil.logWarn("Invalid Entry - try again\n\n");
+			}
 			if(input == 1) {
 				System.out.println("");
 				LoggingUtil.logInfo("Enter account numbuer: ");
@@ -106,6 +114,83 @@ public class BankAdmin extends Employee implements Serializable {
 				}
 			}
 			else if(input == 3) {
+				System.out.println("");
+				LoggingUtil.logInfo("Deposit amount: ");
+				int amount = scan.nextInt();
+				LoggingUtil.logInfo("Account to deposit to: ");
+				int accNum = scan.nextInt();
+				Account user = null;
+				try {
+					user = bank.getAccount(accNum);
+				} catch (BankExceptions e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					LoggingUtil.logError("Can not find account\n\n");
+				}
+				try {
+					bank.deposit(user, amount);
+				} catch (BankExceptions e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					LoggingUtil.logError("Invalid amount\n\n");
+				}
+			}
+			else if(input == 4) {
+				System.out.println("");
+				LoggingUtil.logInfo("Withdraw amount: ");
+				int amount = scan.nextInt();
+				LoggingUtil.logInfo("Account to withdraw from: ");
+				int accNum = scan.nextInt();
+				Account user = null;
+				try {
+					user = bank.getAccount(accNum);
+				} catch (BankExceptions e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					LoggingUtil.logError("Can not find account\n\n");
+				}
+				try {
+					bank.withdraw(user, amount);
+				} catch (BankExceptions e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					LoggingUtil.logError("Invalid amount\n\n");
+				}
+			}
+			else if(input == 5) {
+				System.out.println("");
+				LoggingUtil.logInfo("Withdraw amount: ");
+				int amount = scan.nextInt();
+				LoggingUtil.logInfo("Account to transfer from: ");
+				int transferFrom = scan.nextInt();
+				LoggingUtil.logInfo("Account to transfer to: ");
+				int transferTo = scan.nextInt();
+				Account userOne = null;
+				Account userTwo = null;
+				try {
+					userOne = bank.getAccount(transferFrom);
+				} catch (BankExceptions e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					LoggingUtil.logError("Can not find account\n\n");
+				}
+					try {
+						userTwo = bank.getAccount(transferTo);
+					} catch (BankExceptions e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						LoggingUtil.logError("Can not find account\n\n");
+					}
+				
+				try {
+					bank.transfer(userOne, userTwo, amount);
+				} catch (BankExceptions e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					LoggingUtil.logError("Invalid amount\n\n");
+				}
+			}
+			else if(input == 6) {
 				isFinished = true;
 				System.out.println("");
 			}

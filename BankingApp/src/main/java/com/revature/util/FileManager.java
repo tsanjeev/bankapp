@@ -19,7 +19,7 @@ public class FileManager {
 		Bank bank = null;
 		File fileOne = new File("bankAccounts.dat");
 		if(fileOne.exists()) {
-			bank = readAccounts(filename);
+			bank = readAccounts();
 			
 		}
 			
@@ -36,7 +36,7 @@ public class FileManager {
 		}
 	}
 	
-	public static Bank readAccounts(String filename) {
+	public static Bank readAccounts() {
 		Bank bank = null;
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))){
 			bank = (Bank) ois.readObject();

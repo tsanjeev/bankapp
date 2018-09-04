@@ -80,7 +80,7 @@ public class Bank implements Serializable{
 		}
 		
 		if(user == null) {
-			throw new BankExceptions("Username / Password not found.\n");
+			throw new BankExceptions("Username / Password not found.\n\n");
 		}
 		
 		return user;
@@ -98,9 +98,14 @@ public class Bank implements Serializable{
 	}
 	
 	public void transfer(Account transferFrom, Account transferTo, int amount) throws BankExceptions {
-		transferFrom.transfer(amount, transferTo);
-		LoggingUtil.logInfo("Account balance (sender): " +transferFrom.getBalance() + "\n");
-		LoggingUtil.logInfo("Account balance (recipient): " + transferTo.getBalance() + "\n");
+		
+		if(!transferTo.getAccountStatus().equals(Account.ACCOUNT_APPROVED))
+			LoggingUtil.logWarn("Recipient account is not active - transaction cancelled\n\n");
+		else {
+			transferFrom.transfer(amount, transferTo);
+			LoggingUtil.logInfo("Account balance (sender): " +transferFrom.getBalance() + "\n");
+			LoggingUtil.logWarn("Account balance (recipient): " + transferTo.getBalance() + "\n\n");
+		}
 	}
 	
 	public Account getAccount(int accountNum) throws BankExceptions {

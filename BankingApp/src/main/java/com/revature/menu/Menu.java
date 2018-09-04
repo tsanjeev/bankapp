@@ -84,6 +84,9 @@ public class Menu {
 				FileManager.saveAccounts(bank);
 	
 			}
+			else if(input != 4){
+				LoggingUtil.logWarn("Invalid entry - try again \n\n");
+			}
 			
 		}
 				
