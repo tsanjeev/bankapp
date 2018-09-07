@@ -1,13 +1,49 @@
-package com.revature.account;
+package com.revature.bank;
 
 import java.util.Scanner;
 
-import com.revature.bank.Bank;
+import com.revature.account.Account;
+import com.revature.account.JointAccount;
+import com.revature.account.SingleAccount;
 import com.revature.exception.BankExceptions;
 import com.revature.util.LoggingUtil;
 
-public class AccountTransactions {
+public class BankActions {
 
+public static Account registerSingle(String firstName, String lastName, String accountType, String userName, String password, int accountNumber) {
+		
+		Account user = new SingleAccount();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		if(accountType.equalsIgnoreCase(Account.ACCOUNT_CHECKING))
+			accountType = Account.ACCOUNT_CHECKING;
+		else
+			accountType = Account.ACCOUNT_SAVINGS;
+		user.setAccountType(accountType);
+		user.setAccountStatus(Account.ACCOUNT_PENDING);
+		user.setUserName(userName);
+		user.setPassword(password);
+		user.setAccountNumber(accountNumber);
+		user.setAccType("single");
+		LoggingUtil.logInfo("Account successfully created - Status pending approval\n");
+		return user;
+	}
+	
+	public static Account registerJoint(String firstFirstName, String firstLastName, String firstUserName, String firstPassword,
+	String secondFirstName, String secondLastName, String secondUserName, String secondPassword, String accountType, int accountNumber)
+	{
+		Account joint = new JointAccount(firstFirstName, firstLastName, firstUserName, firstPassword, secondFirstName, secondLastName, secondUserName, secondPassword);
+		if(accountType.equalsIgnoreCase(Account.ACCOUNT_CHECKING))
+			accountType = Account.ACCOUNT_CHECKING;
+		else
+			accountType = Account.ACCOUNT_SAVINGS;
+		joint.setAccountType(accountType);
+		joint.setAccountStatus(Account.ACCOUNT_PENDING);
+		joint.setAccountNumber(accountNumber);
+		LoggingUtil.logInfo("Account successfully created - Status pending approval\n");
+		joint.setAccType("joint");
+		return joint;
+	}
 	
 	public static void performAccountTrans(Bank bank)
 	{

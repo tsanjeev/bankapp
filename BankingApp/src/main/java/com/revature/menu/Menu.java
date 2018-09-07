@@ -3,8 +3,8 @@ package com.revature.menu;
 import java.util.Scanner;
 
 import com.revature.account.Account;
-import com.revature.account.AccountTransactions;
 import com.revature.bank.Bank;
+import com.revature.bank.BankActions;
 import com.revature.employee.BankAdmin;
 import com.revature.employee.Employee;
 import com.revature.exception.BankExceptions;
@@ -92,7 +92,7 @@ public class Menu {
 				}
 			}
 			else if(input == 2) {
-				AccountTransactions.performAccountTrans(bank);
+				BankActions.performAccountTrans(bank);
 				FileManager.saveAccounts(bank);
 				
 			}

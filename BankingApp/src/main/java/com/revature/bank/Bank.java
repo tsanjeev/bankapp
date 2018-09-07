@@ -22,7 +22,6 @@ public class Bank implements Serializable{
 	private static final long serialVersionUID = -3866137718288831030L;
 	
 	List<Account> userAccounts = null;
-	
 	private int numberOfAccounts;
 	
 	
@@ -50,14 +49,14 @@ public class Bank implements Serializable{
 	public void applySingle(String firstName, String lastName, String accountType, String userName, String password) {
 		
 		incrementAccountNumbers();
-		userAccounts.add(Register.registerSingle(firstName, lastName, accountType, userName, password, getNumberOfAccounts()));
+		userAccounts.add(BankActions.registerSingle(firstName, lastName, accountType, userName, password, getNumberOfAccounts()));
 		LoggingUtil.logInfo("logging off\n\n");
 	}
 	
 	public void applyJoint(String firstName, String lastName, String userName, String password, String secondFirstName, 
 			String secondLastName, String secondUserName, String secondPassword, String accountType) {
 		incrementAccountNumbers();
-		userAccounts.add(Register.registerJoint(firstName, lastName, userName, password, secondFirstName, secondLastName, secondUserName, secondPassword, accountType, getNumberOfAccounts()));
+		userAccounts.add(BankActions.registerJoint(firstName, lastName, userName, password, secondFirstName, secondLastName, secondUserName, secondPassword, accountType, getNumberOfAccounts()));
 		LoggingUtil.logInfo("logging off\n\n");
 	}
 	

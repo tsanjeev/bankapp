@@ -45,16 +45,6 @@ public class JointAccount extends Account implements Serializable{
 		this.secondPassword = secondPassword;
 	}
 
-	
-	
-	public void setAccType(String name)
-	{
-		this.accType = name;
-	}
-	
-	public String getAccType() {
-		return accType;
-	}
 
 	public String getFirstFirstName() {
 		return this.firstFirstName;

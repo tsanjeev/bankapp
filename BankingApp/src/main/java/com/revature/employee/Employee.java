@@ -181,37 +181,4 @@ public class Employee implements Serializable {
 		return "Employee [employeeID=" + employeeID + "]";
 		
 	}
-	
-	public static void displayEmployeeList(List<Employee> emp) {
-		for(int j = 0; j < emp.size(); j++)
-			LoggingUtil.logInfo(emp.get(j).toString() + "\n");
-	}
-	
-	public static void saveEmployeeList(List<Employee> employeeList) {
-		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))){
-			oos.writeObject(employeeList);
-		}catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static List<Employee> readEmployeeList() {
-		List<Employee> employeeList = null;
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))){
-			employeeList = (List<Employee>) ois.readObject();
-			//displayPendingAccounts(getPendingAccounts());
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			return employeeList;
-	}
 }

@@ -13,7 +13,6 @@ import com.revature.bank.Bank;
 public class FileManager {
 	
 	private static final String filename = "bankAccounts.dat";
-	private static final String filenameTwo = "bankEmployees.dat";
 	
 	public static Bank initializeBank(){
 		Bank bank = null;

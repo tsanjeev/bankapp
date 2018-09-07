@@ -20,18 +20,6 @@ public class Account implements Serializable {
 	protected String lastName;
 	protected String userName;
 	protected String password;
-	protected boolean isLoggedOn;
-	protected String accType;
-	
-	public void setAccType(String name)
-	{
-		this.accType = name;
-	}
-	
-	public String getAccType() {
-		return accType;
-	}
-	
 	
 	private static final long serialVersionUID = 3417438856095899877L;
 	public void transfer(int amount, Account account) throws BankExceptions {
@@ -98,35 +86,40 @@ public class Account implements Serializable {
 		// TODO Auto-generated method stub
 		return this.accountStatus;
 	}
-	
+		
 	public void setFirstName(String firstName) {
+		// TODO Auto-generated method stub
+		this.firstName = firstName;
+		
 	}
 	public void setLastName(String lastName) {
+		// TODO Auto-generated method stub
+		this.lastName = lastName;
 	}
 	public String getFirstName() {
-		return null;
+		// TODO Auto-generated method stub
+		return this.firstName;
 	}
 	public String getLastName() {
-		return null;
+		// TODO Auto-generated method stub
+		return this.lastName;
 	}
 	public String getUserName() {
-		return null;
+		// TODO Auto-generated method stub
+		return this.userName;
 	}
 	public void setUserName(String userName) {
+		// TODO Auto-generated method stub
+		this.userName = userName;
 	}
 	public String getPassword() {
-		return null;
+		// TODO Auto-generated method stub
+		return this.password;
 	}
 	public void setPassword(String password) {
-	}
-	
-	public boolean isLoggedIn() {
 		// TODO Auto-generated method stub
-		return isLoggedOn;
-	}
-	public void setLoggedOn(boolean activity) {
-		// TODO Auto-generated method stub
-		this.isLoggedOn = activity;
+		this.password = password;
+		
 	}
 	
 	public static final String ACCOUNT_APPROVED = "APPROVED";
