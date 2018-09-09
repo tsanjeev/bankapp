@@ -21,7 +21,6 @@ public class FileManager {
 			bank = readAccounts();
 			
 		}
-			
 		return bank;
 	}
 	
@@ -39,7 +38,6 @@ public class FileManager {
 		Bank bank = null;
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))){
 			bank = (Bank) ois.readObject();
-			//displayPendingAccounts(getPendingAccounts());
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();

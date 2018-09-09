@@ -20,38 +20,63 @@ public class Account implements Serializable {
 	protected String lastName;
 	protected String userName;
 	protected String password;
+	protected String accType;
+	protected Account jointAccount;
+	
+	
 	
 	private static final long serialVersionUID = 3417438856095899877L;
-	public void transfer(int amount, Account account) throws BankExceptions {
-		// TODO Auto-generated method stub
-		boolean isSuccessful = true;
-		try {
-			withdraw(amount);
-		} catch (BankExceptions e){
-			LoggingUtil.logError("Invalid withdraw amount\n");
-			isSuccessful = false;
+	
+	public void setAccType(String acctype) {
+		this.accType = acctype;
+	}
+	
+	public String getAccType() {
+		return this.accType;
+	}
+	
+	public Account getJointAccount() {
+		return jointAccount;
+	}
+	
+	public void setJointAccount(Account jointAccount) {
+		this.jointAccount = jointAccount;
+	}
+	
+	public void transfer(int amount, Account account) {
+		// TODO Auto-generated method stu
+		if(amount > this.balance) {
+			LoggingUtil.logError("Invalid withdraw amount - Withdraw cancelled.\n");
 		}
-		if(isSuccessful)
-			account.deposit(amount);
+		else {
+				withdraw(amount);
+				account.deposit(amount);
+				LoggingUtil.logInfo("Account #" + this.getAccountNumber() + " successfully transferred " + amount + ", new balance: $" + this.balance +".\n\n");
+		}
 	}
 	public void setBalance(int amount) {
 			// TODO Auto-generated method stub
 			balance = amount;
 	}
-	public void deposit(int amount) throws BankExceptions {
+	public void deposit(int amount) {
 		// TODO Auto-generated method stub
-		if(amount <= 0)
-			throw new BankExceptions("Invalid deposit amount");
-		else
 			balance += amount;
+			LoggingUtil.logInfo("Account #" + this.getAccountNumber() + " successfully deposited " + amount + ", new balance: $" + this.balance +".\n\n");
+			
 	}
 	
-	public void withdraw(int amount) throws BankExceptions {
+	public void withdraw(int amount) {
 		// TODO Auto-generated method stub
-		if(amount > balance)
-			throw new BankExceptions("Insufficient funds\n");
-		else
+		if(amount > this.balance) {
+			LoggingUtil.logError("Insufficient Funds - Transaction cancelled.\n\n");
+			System.out.println("Insufficient Funds - Transaction cancelled.\n\n");
+		}
+		else {
 			balance -= amount;
+			LoggingUtil.logInfo("Account #" + this.getAccountNumber() + " successfully withdrew " + amount + ", new balance: $" + this.balance +".\n\n");
+			System.out.println("Account #" + this.getAccountNumber() + " successfully withdrew " + amount + ", new balance: $" + this.balance +".\n\n");
+		}
+			
 		
 	}
 	public int getAccountNumber() {
@@ -127,21 +152,8 @@ public class Account implements Serializable {
 	public static final String ACCOUNT_CHECKING = "CHECKING";
 	public static final String ACCOUNT_SAVINGS = "SAVINGS";
 	public static final String ACCOUNT_PENDING = "PENDING";
-	public  String getFirstUserName() {
-		return null;
-	}
-	public String getPasswordOne() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public String getSecondUserName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public String getPasswordTwo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public static final String JOINT_ACCOUNT = "JOINT_ACCOUNT";
+	public static final String REGULAR_ACCOUNT = "REGULAR_ACCOUNT";
 	
 		
 }

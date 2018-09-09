@@ -9,12 +9,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.revature.account.Account;
-import com.revature.account.SingleAccount;
+import com.revature.account.UserAccount;
 import com.revature.bank.Register;
 
 public class TestRegister {
 
-	SingleAccount user;
+	UserAccount user;
 	int initialBalance = 500;
 	int accountNumber = 123456;
 	
@@ -28,7 +28,7 @@ public class TestRegister {
 
 	@Before
 	public void setUp() throws Exception {
-		user = new SingleAccount();
+		user = new UserAccount();
 	}
 
 	@After
@@ -43,7 +43,7 @@ public class TestRegister {
 		String password = "12345";
 		String accountType = Account.ACCOUNT_SAVINGS;
 		int accountNumber = 23;
-		SingleAccount newUser = (SingleAccount)Register.registerSingle(firstName, lastName, accountType, userName, password, accountNumber);
+		UserAccount newUser = (UserAccount)Register.registerSingle(firstName, lastName, accountType, userName, password, accountNumber);
 		assertEquals(newUser.getFirstName(), firstName);
 		assertEquals(newUser.getLastName(), lastName);
 		assertEquals(newUser.getAccountType(), accountType);

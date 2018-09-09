@@ -9,12 +9,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.revature.account.Account;
-import com.revature.account.SingleAccount;
+import com.revature.account.UserAccount;
 import com.revature.employee.Employee;
 
 public class TestEmployee {
 
-	SingleAccount user;
+	UserAccount user;
 	Employee teller;
 	
 	@BeforeClass
@@ -31,7 +31,7 @@ public class TestEmployee {
 		int accountNumber = 123456;
 		teller = new Employee();
 		teller.setEmployeeID(22);
-		user = new SingleAccount();
+		user = new UserAccount();
 		user.setBalance(initialBalance);
 		user.setAccountNumber(accountNumber);
 		user.setAccountType(Account.ACCOUNT_CHECKING);

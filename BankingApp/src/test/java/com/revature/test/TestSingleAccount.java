@@ -8,14 +8,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.revature.account.Account;
-import com.revature.account.SingleAccount;
+import com.revature.account.UserAccount;
 import com.revature.exception.BankExceptions;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
 public class TestSingleAccount {
 
-	SingleAccount user;
+	UserAccount user;
 	int initialBalance = 500;
 	int accountNumber = 123456;
 	
@@ -30,7 +30,7 @@ public class TestSingleAccount {
 
 	@Before
 	public void setUp() throws Exception {
-		user = new SingleAccount();
+		user = new UserAccount();
 		user.setBalance(initialBalance);
 		user.setAccountNumber(accountNumber);
 		user.setAccountType(Account.ACCOUNT_CHECKING);
@@ -67,7 +67,7 @@ public class TestSingleAccount {
 	@Test
 	public void testTransferTooMuch() throws BankExceptions {
 		
-		Account userTwo = new SingleAccount();
+		Account userTwo = new UserAccount();
 		userTwo.setBalance(initialBalance);
 		userTwo.setAccountNumber(2);
 		userTwo.setAccountType(Account.ACCOUNT_CHECKING);
@@ -86,7 +86,7 @@ public class TestSingleAccount {
 	@Test
 	public void testTransfer() throws BankExceptions {
 		
-		Account userTwo = new SingleAccount();
+		Account userTwo = new UserAccount();
 		userTwo.setBalance(initialBalance);
 		userTwo.setAccountNumber(2);
 		userTwo.setAccountType(Account.ACCOUNT_CHECKING);

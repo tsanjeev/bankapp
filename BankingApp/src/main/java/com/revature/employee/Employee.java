@@ -1,19 +1,10 @@
 package com.revature.employee;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.revature.account.Account;
 import com.revature.bank.Bank;
-import com.revature.exception.BankExceptions;
 import com.revature.util.LoggingUtil;
 
 public class Employee implements Serializable {
@@ -22,7 +13,6 @@ public class Employee implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2918143209529064807L;
-	private static final String filename = "bankEmployees.dat";
 	protected int employeeID;
 	protected String position;
 	Scanner scan;
@@ -43,8 +33,6 @@ public class Employee implements Serializable {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-
-
 
 	public void setEmployeeID(int ID) {
 		this.employeeID = ID;
@@ -88,7 +76,7 @@ public class Employee implements Serializable {
 	}
 	
 	public void getCustomerInfo(Account user) {
-		LoggingUtil.logInfo(user.toString() +"\n\n");
+		System.out.println(user.toString() +"\n\n");
 	}
 	
 	public void employeeActions(Bank bank) {
@@ -96,20 +84,16 @@ public class Employee implements Serializable {
 		int input = 0;
 		while(!isFinished)
 		{
-			LoggingUtil.logInfo("1: Retrieve customer information\n");
-			LoggingUtil.logInfo("2: Approve or deny pending accounts\n");
-			LoggingUtil.logInfo("3: Return to main menu\n");
-			LoggingUtil.logInfo("Please choose an action: ");
+			System.out.println("1: Retrieve customer information\n");
+			System.out.println("2: Approve or deny pending accounts\n");
+			System.out.println("3: Return to main menu\n");
+			System.out.println("Please choose an action: ");
 			input = scan.nextInt();
 			if(input == 1) {
 				System.out.println("");
-				LoggingUtil.logInfo("Enter account numbuer: ");
+				System.out.println("Enter account numbuer: ");
 				int accountNumber = scan.nextInt();
-				try {
-						getCustomerInfo((bank.getAccount(accountNumber)));
-				} catch (BankExceptions e) {
-					LoggingUtil.logWarn("Account not found\n\n");
-				} 
+				getCustomerInfo((bank.getAccount(accountNumber))); 
 			}
 			else if(input == 2) {
 				boolean isValid = false;
@@ -117,50 +101,41 @@ public class Employee implements Serializable {
 				while(!isValid)
 				{
 					System.out.println("");
-					LoggingUtil.logInfo("Pending accounts: \n");
+					System.out.println("Pending accounts: \n");
 					if(bank.getPendingAccounts().size() >= 1)
 					{
 						boolean isValidKey = false;
 						while(!isValidKey)
 						{
 							bank.displayAccounts( bank.getPendingAccounts());
-							LoggingUtil.logInfo("Choose account to approve or deny\n");
-							LoggingUtil.logInfo("Account number: ");
+							System.out.println("Choose account to approve or deny\n");
+							System.out.println("Account number: ");
 							
 							accountNum = scan.nextInt();
-							if(accountNum > 0 && accountNum <= bank.getNumberOfAccounts())
+							if(bank.getNumberOfAccounts() > 0 && accountNum <= bank.getNumberOfAccounts())
 								isValidKey = true;
 							else
 								LoggingUtil.logWarn("Invalid entry - try again\n\n");
 						}
 						boolean isValidKeyTwo = false;
 						while(!isValidKeyTwo) {
-							LoggingUtil.logInfo("1: approve\n");
-							LoggingUtil.logInfo("2: deny\n");
-							LoggingUtil.logInfo("Please choose an action: ");
+							System.out.println("1: approve\n");
+							System.out.println("2: deny\n");
+							System.out.println("Please choose an action: ");
 							input = scan.nextInt();
 							if(input == 1 || input == 2)
 								isValidKeyTwo = true;
-							else
+							else {
 								LoggingUtil.logWarn("Invalid entry - try again\n\n");
+							}
 						}
 						if(input == 1) {
-								try {
-									approveApplication(bank.getAccount(accountNum));
-									LoggingUtil.logInfo(getPosition()+": " + getEmployeeID() + " - Approved account # " + accountNum + "\n\n" );
-								} catch (BankExceptions e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+								approveApplication(bank.getAccount(accountNum));
+								LoggingUtil.logInfo(getPosition()+": " + getEmployeeID() + " - Approved account # " + accountNum + "\n\n");
 							}
 							else if(input == 2) {
-								try {
-									denyApplication(bank.getAccount(accountNum));
-									LoggingUtil.logInfo(getPosition()+": " + getEmployeeID() + " - Denied account # " + accountNum + "\n\n" );
-								} catch (BankExceptions e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+								denyApplication(bank.getAccount(accountNum));
+								LoggingUtil.logInfo(getPosition()+": " + getEmployeeID() + " - Denied account # " + accountNum + "\n\n");
 							}
 						
 						}isValid = true;
