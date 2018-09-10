@@ -8,6 +8,7 @@ import com.revature.employee.BankAdmin;
 import com.revature.employee.Employee;
 import com.revature.util.FileManager;
 import com.revature.util.LoggingUtil;
+import com.revature.util.TypeWriter;
 
 public class Menu {
 	
@@ -23,33 +24,35 @@ public class Menu {
 		int input = 0;
 		while(input != 4)
 		{
-			System.out.println("Welcome to The Bank.\n" );
-			System.out.println("1: New Customer\n" );
-			System.out.println("2: Returning Customer\n");
-			System.out.println("3: Employee\n" );
-			System.out.println("4: Exit\n");
-			System.out.println("Please choose an option: ");
+			System.out.println("\r\n" + 
+					" __      __       .__                                ___________         _____    __________                __    \r\n" + 
+					"/  \\    /  \\ ____ |  |   ____  ____   _____   ____   \\__    ___/___     /  _  \\   \\______   \\_____    ____ |  | __\r\n" + 
+					"\\   \\/\\/   // __ \\|  | _/ ___\\/  _ \\ /     \\_/ __ \\    |    | /  _ \\   /  /_\\  \\   |    |  _/\\__  \\  /    \\|  |/ /\r\n" + 
+					" \\        /\\  ___/|  |_\\  \\__(  <_> )  Y Y  \\  ___/    |    |(  <_> ) /    |    \\  |    |   \\ / __ \\|   |  \\    < \r\n" + 
+					"  \\__/\\  /  \\___  >____/\\___  >____/|__|_|  /\\___  >   |____| \\____/  \\____|__  /  |______  /(____  /___|  /__|_ \\\r\n" + 
+					"       \\/       \\/          \\/            \\/     \\/                           \\/          \\/      \\/     \\/     \\/\r\n" + 
+					"");
+		
+			TypeWriter.write("\t1: New Customer \n	2: Returning Customer\n	3: Employee \n	4: Exit \n	Please choose an option: ", 50);
 			input = scan.nextInt();
 			if(input == 1)
 			{
 				boolean isValidKey = false;
 				while(!isValidKey) {
-					System.out.println("Which kind of account would you like to apply for?\n");
-					System.out.println("1: Regular account\n");
-					System.out.println("2: Joint account\n");
-					System.out.println("Please choose an option: ");
+					TypeWriter.write("\n	Which kind of account would you like to apply for?\n	1: Regular account\n	2: Joint account\n	Please choose an option: ", 50);
 					input = scan.nextInt();
 					
 					if(input == 1 ) {
-						
 						bank.addAccount(BankActions.register(bank.getNumberOfAccounts()));
-						bank.incrementAccountNumbers();
 						FileManager.saveAccounts(bank);
+						System.out.println("");
+						LoggingUtil.logInfo("Account successfully created - Status pending approval\n\n");
 						isValidKey = true;
 					}
 					else if(input == 2) {
 						bank.addAccount(BankActions.registerJoint(bank.getNumberOfAccounts()));
-						bank.incrementAccountNumbers();
+						System.out.println("");
+						LoggingUtil.logInfo("Joint Account successfully created - Status pending approval\n\n");
 						FileManager.saveAccounts(bank);
 						isValidKey = true;
 					}
@@ -69,24 +72,23 @@ public class Menu {
 				Employee bankEmployee = null;
 				while(!isFinished)
 				{
-					System.out.println("Please enter employee id: ");
+					TypeWriter.write("\n	Please enter employee id: ", 50);
 					int empID = scan.nextInt();
-					System.out.println("");
 					if(Integer.toString((empID)).charAt(0) == '1'){
-						System.out.println("Welcome Teller: "+ empID + "\n");
+						TypeWriter.write("\n	Welcome Teller: "+ empID + "\n", 50);
 						bankEmployee = new Employee();
 						bankEmployee.setEmployeeID(empID);
 						isFinished = true;
 					}
 					else if(Integer.toString((empID)).charAt(0) == '5') {
-						System.out.println("Welcome BankAdmin: "+ empID + "\n");
+						TypeWriter.write("\n	Welcome BankAdmin: "+ empID + "\n", 50);
 						bankEmployee = new BankAdmin();
 						bankEmployee.setEmployeeID(empID);
 						isFinished = true;
 					}
 					else {
 						LoggingUtil.logWarn("Invalid Employee Id - try again.\n\n");
-						System.out.println("Invalid Employee Id - try again.\n\n");
+						TypeWriter.write("Invalid Employee Id - try again.\n\n", 50);
 						
 					}
 				}
@@ -96,11 +98,10 @@ public class Menu {
 			}
 			else if(input != 4){
 				LoggingUtil.logWarn("Invalid Entry - try again \n\n");
-				System.out.println("Invalid Employee Id - try again.\n\n");
+				TypeWriter.write("Invalid Employee Id - try again.\n\n", 50);
 			}
 			
 		}
-				
 		scan.close();
 	}
 }

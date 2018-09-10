@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.revature.account.Account;
 import com.revature.account.UserAccount;
 import com.revature.employee.Employee;
 
@@ -34,8 +33,8 @@ public class TestEmployee {
 		user = new UserAccount();
 		user.setBalance(initialBalance);
 		user.setAccountNumber(accountNumber);
-		user.setAccountType(Account.ACCOUNT_CHECKING);
-		user.setAccountStatus(Account.ACCOUNT_PENDING);
+		user.setAccountType(UserAccount.ACCOUNT_CHECKING);
+		user.setAccountStatus(UserAccount.ACCOUNT_PENDING);
 		user.setFirstName("John");
 		user.setLastName("Doe");
 		

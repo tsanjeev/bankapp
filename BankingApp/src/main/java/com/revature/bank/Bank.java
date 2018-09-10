@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
 
-import com.revature.account.Account;
+import com.revature.account.UserAccount;
 import com.revature.util.LoggingUtil;
+import com.revature.util.TypeWriter;
 
 public class Bank implements Serializable{
 
@@ -14,12 +15,12 @@ public class Bank implements Serializable{
 	 */
 	private static final long serialVersionUID = -3866137718288831030L;
 	
-	List<Account> userAccounts = null;
+	List<UserAccount> userAccounts = null;
 	private int numberOfAccounts;
 	
 	
 	public Bank() {
-		userAccounts = new ArrayList<Account>();
+		userAccounts = new ArrayList<UserAccount>();
 		numberOfAccounts = 0;
 	}
 	
@@ -32,18 +33,24 @@ public class Bank implements Serializable{
 		this.numberOfAccounts = numberOfAccounts;
 	}
 	
+	public void deleteAccount(int accNum) {
+		this.userAccounts.remove(accNum);
+		numberOfAccounts--;
+	}
+	
 	public void incrementAccountNumbers() {
 		numberOfAccounts++;
 	}
 	
-	public void addAccount(Account acc) {
+	public void addAccount(UserAccount acc) {
 		userAccounts.add(acc);
+		incrementAccountNumbers();
 	}
 	
-	public List<Account> getPendingAccounts(){
-		List<Account> pendingAccounts = new ArrayList<Account>();
+	public List<UserAccount> getPendingAccounts(){
+		List<UserAccount> pendingAccounts = new ArrayList<UserAccount>();
 		for(int j = 0; j < userAccounts.size(); j++) {
-			if(userAccounts.get(j).getAccountStatus().equals(Account.ACCOUNT_PENDING))
+			if(userAccounts.get(j).getAccountStatus().equals(UserAccount.ACCOUNT_PENDING))
 			{
 				pendingAccounts.add(userAccounts.get(j));
 				
@@ -51,27 +58,27 @@ public class Bank implements Serializable{
 			
 		}
 		if(pendingAccounts.size() == 0)
-			System.out.println("No pending acounts at this time.\n\n");
+			TypeWriter.write("No pending acounts at this time.\n\n", 50);
 		return pendingAccounts;
 	}
 	
-	public void displayAccounts(List<Account> accounts) {
+	public void displayAccounts(List<UserAccount> accounts) {
 		for(int x = 0; x < accounts.size(); x++) {
-			System.out.println(accounts.get(x).toString() + "\n");
+			TypeWriter.write("	"+ accounts.get(x).toString() + "\n", 50);
 		}
 		
 	}
-	public Account customerLogin(String userName, String password){
-		Account user = null;
+	public UserAccount customerLogin(String userName, String password){
+		UserAccount user = null;
 		for(int x = 0; x < userAccounts.size(); x++) 
 		{
-			if(Account.REGULAR_ACCOUNT.equals(userAccounts.get(x).getAccType()))
+			if(UserAccount.REGULAR_ACCOUNT.equals(userAccounts.get(x).getAccType()))
 			{
 				if(userAccounts.get(x).getUserName().equals(userName) && (userAccounts.get(x).getPassword().equals(password))) {
 					return userAccounts.get(x);
 				}
 			}
-			else if (Account.JOINT_ACCOUNT.equals(userAccounts.get(x).getAccType())) {
+			else if (UserAccount.JOINT_ACCOUNT.equals(userAccounts.get(x).getAccType())) {
 				if(userAccounts.get(x).getUserName().equals(userName) && (userAccounts.get(x).getPassword().equals(password)) ||
 						(userAccounts.get(x).getJointAccount().getUserName().equals(userName)) && 
 							userAccounts.get(x).getJointAccount().getPassword().equals(password)){
@@ -83,18 +90,18 @@ public class Bank implements Serializable{
 		return user;
 }
 	
-	public void withdraw(Account user, int amount) {
+	public void withdraw(UserAccount user, int amount) {
 		user.withdraw(amount);
 	}
 	
-	public void deposit(Account user, int amount) {
+	public void deposit(UserAccount user, int amount) {
 		user.deposit(amount);
 		
 	}
 	
-	public void transfer(Account transferFrom, Account transferTo, int amount) {
+	public void transfer(UserAccount transferFrom, UserAccount transferTo, int amount) {
 		
-		if(!transferTo.getAccountStatus().equals(Account.ACCOUNT_APPROVED)) {
+		if(!transferTo.getAccountStatus().equals(UserAccount.ACCOUNT_APPROVED)) {
 			LoggingUtil.logWarn("Recipient account is not active - transaction cancelled\n\n");
 		}
 		else {
@@ -102,14 +109,14 @@ public class Bank implements Serializable{
 		}
 	}
 	
-	public Account getAccount(int accountNum)  {
-		Account acc = null;
+	public UserAccount getAccount(int accountNum)  {
+		UserAccount acc = null;
 		for(int j = 0; j < userAccounts.size(); j++) {
 			if(accountNum == userAccounts.get(j).getAccountNumber())
 				acc = userAccounts.get(j);
-		}
-		//if(acc == null)
-			
+		}	
 		return acc;
 	}
+	
+	
 }

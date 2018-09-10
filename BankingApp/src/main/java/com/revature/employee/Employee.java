@@ -3,9 +3,10 @@ package com.revature.employee;
 import java.io.Serializable;
 import java.util.Scanner;
 
-import com.revature.account.Account;
+import com.revature.account.UserAccount;
 import com.revature.bank.Bank;
 import com.revature.util.LoggingUtil;
+import com.revature.util.TypeWriter;
 
 public class Employee implements Serializable {
 	
@@ -42,41 +43,57 @@ public class Employee implements Serializable {
 		return this.employeeID;
 	}
 
-	public int getAccountNumber(Account person) {
+	public int getAccountNumber(UserAccount person) {
 		return person.getAccountNumber();
 	}
 	
-	public int getBalance(Account person) {
+	public int getBalance(UserAccount person) {
 		return person.getBalance();
 	}
 	
-	public String getAccountType(Account person)
+	public String getAccountType(UserAccount person)
 	{
 		return person.getAccountType();
 	}
 	
-	public void approveApplication(Account person) {
-		person.setAccountStatus(Account.ACCOUNT_APPROVED);
+	public void approveApplication(UserAccount person) {
+		person.setAccountStatus(UserAccount.ACCOUNT_APPROVED);
 	}
 
-	public void denyApplication(Account person) {
-		person.setAccountStatus(Account.ACCOUNT_DENIED);
+	public void denyApplication(UserAccount person) {
+		person.setAccountStatus(UserAccount.ACCOUNT_DENIED);
 	}
 	
-	public String getAccountStatus(Account person) {
+	public String getAccountStatus(UserAccount person) {
 		return person.getAccountStatus();
 	}
 	
-	public String getUserFirstName(Account person) {
+	public String getUserFirstName(UserAccount person) {
 		return person.getFirstName();
 	}
 	
-	public String getUserLastName(Account person) {
+	public String getUserLastName(UserAccount person) {
 		return person.getLastName();
 	}
 	
-	public void getCustomerInfo(Account user) {
-		System.out.println(user.toString() +"\n\n");
+	public void getCustomerInfo(UserAccount user) {
+		if(user == null) {
+			LoggingUtil.logWarn("Account not found\n\n");
+		}
+		else
+			System.out.println(user.toString() +"\n\n");
+	}
+	
+	public void getAllCustomerInfo(Bank bank) {
+		if(bank.getNumberOfAccounts() > 0) {
+			for(int i = 0; i < bank.getNumberOfAccounts(); i++)
+				TypeWriter.write("	"+ bank.getAccount(i).toString() + "\n", 50);
+			System.out.println("");
+		}
+		else {
+			System.out.println("\n	No accounts to retrieve\n\n");
+			
+		}
 	}
 	
 	public void employeeActions(Bank bank) {
@@ -84,32 +101,25 @@ public class Employee implements Serializable {
 		int input = 0;
 		while(!isFinished)
 		{
-			System.out.println("1: Retrieve customer information\n");
-			System.out.println("2: Approve or deny pending accounts\n");
-			System.out.println("3: Return to main menu\n");
-			System.out.println("Please choose an action: ");
+			TypeWriter.write("	1: Retrieve customer information\n	2: Approve or deny pending accounts\n	3: Return to main menu\n	Please choose an action: ", 50);
 			input = scan.nextInt();
 			if(input == 1) {
-				System.out.println("");
-				System.out.println("Enter account numbuer: ");
-				int accountNumber = scan.nextInt();
-				getCustomerInfo((bank.getAccount(accountNumber))); 
+				
+				getAllCustomerInfo(bank); 
 			}
 			else if(input == 2) {
 				boolean isValid = false;
 				int accountNum = 0;
 				while(!isValid)
 				{
-					System.out.println("");
-					System.out.println("Pending accounts: \n");
+					TypeWriter.write("\n	Pending accounts: \n", 50);
 					if(bank.getPendingAccounts().size() >= 1)
 					{
 						boolean isValidKey = false;
 						while(!isValidKey)
 						{
 							bank.displayAccounts( bank.getPendingAccounts());
-							System.out.println("Choose account to approve or deny\n");
-							System.out.println("Account number: ");
+							TypeWriter.write("	Choose account to approve or deny\n	Account number: ", 50);
 							
 							accountNum = scan.nextInt();
 							if(bank.getNumberOfAccounts() > 0 && accountNum <= bank.getNumberOfAccounts())
@@ -119,9 +129,7 @@ public class Employee implements Serializable {
 						}
 						boolean isValidKeyTwo = false;
 						while(!isValidKeyTwo) {
-							System.out.println("1: approve\n");
-							System.out.println("2: deny\n");
-							System.out.println("Please choose an action: ");
+							TypeWriter.write("	1: approve\n	2: deny\n	Please choose an action: ", 50);
 							input = scan.nextInt();
 							if(input == 1 || input == 2)
 								isValidKeyTwo = true;
@@ -143,7 +151,6 @@ public class Employee implements Serializable {
 			}
 			else if(input == 3) {
 				isFinished = true;
-				System.out.println("");
 			}
 			else {
 				LoggingUtil.logWarn("Invalid Entry - try again\n\n");
