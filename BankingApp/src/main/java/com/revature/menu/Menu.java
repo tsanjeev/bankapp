@@ -2,13 +2,13 @@ package com.revature.menu;
 
 import java.util.Scanner;
 
+import com.revature.account.Account;
+import com.revature.account.User;
+import com.revature.bank.AccountServices;
 import com.revature.bank.Bank;
-import com.revature.bank.BankActions;
-import com.revature.employee.BankAdmin;
 import com.revature.employee.Employee;
 import com.revature.util.FileManager;
 import com.revature.util.LoggingUtil;
-import com.revature.util.TypeWriter;
 
 public class Menu {
 	
@@ -21,88 +21,112 @@ public class Menu {
 			bank = FileManager.initializeBank();
 		else
 			bank = new Bank();
-		int input = 0;
-		while(input != 4)
-		{
-			System.out.println("\r\n" + 
-					" __      __       .__                                ___________         _____    __________                __    \r\n" + 
-					"/  \\    /  \\ ____ |  |   ____  ____   _____   ____   \\__    ___/___     /  _  \\   \\______   \\_____    ____ |  | __\r\n" + 
-					"\\   \\/\\/   // __ \\|  | _/ ___\\/  _ \\ /     \\_/ __ \\    |    | /  _ \\   /  /_\\  \\   |    |  _/\\__  \\  /    \\|  |/ /\r\n" + 
-					" \\        /\\  ___/|  |_\\  \\__(  <_> )  Y Y  \\  ___/    |    |(  <_> ) /    |    \\  |    |   \\ / __ \\|   |  \\    < \r\n" + 
-					"  \\__/\\  /  \\___  >____/\\___  >____/|__|_|  /\\___  >   |____| \\____/  \\____|__  /  |______  /(____  /___|  /__|_ \\\r\n" + 
-					"       \\/       \\/          \\/            \\/     \\/                           \\/          \\/      \\/     \\/     \\/\r\n" + 
-					"");
 		
-			TypeWriter.write("\t1: New Customer \n	2: Returning Customer\n	3: Employee \n	4: Exit \n	Please choose an option: ", 50);
-			input = scan.nextInt();
-			if(input == 1)
-			{
-				boolean isValidKey = false;
-				while(!isValidKey) {
-					TypeWriter.write("\n	Which kind of account would you like to apply for?\n	1: Regular account\n	2: Joint account\n	Please choose an option: ", 50);
-					input = scan.nextInt();
-					
-					if(input == 1 ) {
-						bank.addAccount(BankActions.register(bank.getNumberOfAccounts()));
-						FileManager.saveAccounts(bank);
-						System.out.println("");
-						LoggingUtil.logInfo("Account successfully created - Status pending approval\n\n");
-						isValidKey = true;
-					}
-					else if(input == 2) {
-						bank.addAccount(BankActions.registerJoint(bank.getNumberOfAccounts()));
-						System.out.println("");
-						LoggingUtil.logInfo("Joint Account successfully created - Status pending approval\n\n");
-						FileManager.saveAccounts(bank);
-						isValidKey = true;
-					}
-					else {
-						LoggingUtil.logWarn("Invalid Entry - try again\n\n");
-					}
-				}
-				
-			}
-			else if(input == 2) {
-				BankActions.performAccountTrans(bank);
-				FileManager.saveAccounts(bank);
-				
-			}
-			else if(input == 3){
-				boolean isFinished = false;
-				Employee bankEmployee = null;
-				while(!isFinished)
-				{
-					TypeWriter.write("\n	Please enter employee id: ", 50);
-					int empID = scan.nextInt();
-					if(Integer.toString((empID)).charAt(0) == '1'){
-						TypeWriter.write("\n	Welcome Teller: "+ empID + "\n", 50);
-						bankEmployee = new Employee();
-						bankEmployee.setEmployeeID(empID);
-						isFinished = true;
-					}
-					else if(Integer.toString((empID)).charAt(0) == '5') {
-						TypeWriter.write("\n	Welcome BankAdmin: "+ empID + "\n", 50);
-						bankEmployee = new BankAdmin();
-						bankEmployee.setEmployeeID(empID);
-						isFinished = true;
-					}
-					else {
-						LoggingUtil.logWarn("Invalid Employee Id - try again.\n\n");
-						TypeWriter.write("Invalid Employee Id - try again.\n\n", 50);
-						
-					}
-				}
-				bankEmployee.employeeActions(bank);
-				FileManager.saveAccounts(bank);
-	
-			}
-			else if(input != 4){
-				LoggingUtil.logWarn("Invalid Entry - try again \n\n");
-				TypeWriter.write("Invalid Employee Id - try again.\n\n", 50);
-			}
+		bank.displayAllAccounts();
+		bank.displayAllUsers();
+		String input = null;
+		boolean hasQuit = false;
+		while(!hasQuit)
+		{
+			System.out.println("Welcome to The Bank.\n" );
+			System.out.println("Please choose an option: ");
+			System.out.println("[Register][Login][Employee][Exit]: " );
+			input = scan.nextLine();
 			
+			switch(input.toLowerCase().trim())
+			{
+			
+				case "register":
+									AccountServices.register(bank);
+									bank.displayAllAccounts();
+									bank.displayAllUsers();
+									break;
+				
+				case "login":
+									System.out.println("Please Enter A Username: " );
+									String username = scan.nextLine();
+									System.out.println("Please Enter A Password: " );
+									String password = scan.nextLine();
+									User user = AccountServices.customerLogin(bank, username, password);
+									//System.out.println(user.toString());
+									System.out.println(user.getUserName()+ " Successfully Logged In.\n");
+									boolean isDone = false;
+									while(!isDone)
+									{
+										bank.displayUsersAccounts(user);
+										System.out.println("Please Choose An Option: ");
+										System.out.println("[New Account][Deposit][Withdraw][Transfer][Exit]: ");
+										String userInput = scan.nextLine();
+										switch(userInput.toLowerCase().trim()) {
+											
+											case "new account":		System.out.println("[Regular] or [Joint] Account: ");
+																	userInput = scan.nextLine();
+																	
+																	if(userInput.trim().equalsIgnoreCase("REGULAR")){
+																		Account account = AccountServices.applyRegular(bank, user);
+																		//System.out.println(account.toString());
+																	}
+																	else if(userInput.trim().equalsIgnoreCase("JOINT")){
+																		System.out.println("Please Enter 2nd User's Username: ");
+																		userInput = scan.nextLine();
+																		//User userTwo = BankHandler.findUser(bank, userInput);
+																		//applyJoint(bank, user, userTwo);
+																	}
+																	break;
+											case "deposit":
+																	System.out.println("Please Enter Amount For Deposit: ");
+																	String amountDeposit = scan.nextLine();
+																	System.out.println("Please Enter Account #:");
+																	String accNum = scan.nextLine();
+																	Account checkAccount = AccountServices.findAccount(bank, Integer.parseInt(accNum));
+																	if(!checkAccount.getAccountStatus().equals(Account.ACCOUNT_PENDING))
+																		AccountServices.deposit(checkAccount, Integer.parseInt(amountDeposit));
+																	else {
+																		LoggingUtil.logWarn("Account: " + checkAccount.getAccountNumber()+ " - Status Pending - No Transactions Available At This Time\n\n");
+																	}
+																	FileManager.saveAccounts(bank);
+																	break;
+											
+											case "withdraw":		System.out.println("Please Enter Amount For Withdraw: ");
+																	String amountWithdraw = scan.nextLine();
+																	System.out.println("Please Enter Account #:");
+																	String accNumTwo = scan.nextLine();
+																	Account checkAccountTwo = AccountServices.findAccount(bank, Integer.parseInt(accNumTwo));
+																	if(!checkAccountTwo.getAccountStatus().equals(Account.ACCOUNT_PENDING))
+																		AccountServices.deposit(checkAccountTwo, Integer.parseInt(amountWithdraw));
+																	else {
+																		LoggingUtil.logWarn("Account: " + checkAccountTwo.getAccountNumber()+ " - Status Pending - No Transactions Available At This Time\n\n");
+																	}
+																	FileManager.saveAccounts(bank);
+																	break;
+											case "transfer":
+																	FileManager.saveAccounts(bank);
+																	break;
+											case "exit":
+																	isDone = true;
+																	break;
+											default :
+																	System.out.println("Invalid Entry - Try Again\n\n");
+										}	
+									}
+									break;
+				
+				case "employee":
+									Employee emp = new Employee();
+									Employee worker = emp.employeeLogin(bank);
+									worker.employeeActions(bank);
+									break;
+				case "exit":		
+									hasQuit = true;
+									break;
+				default:			
+									System.out.println("Invalid Entry - Try Again\n\n");
+					
+			}	
 		}
+		System.out.println("Exiting Bank");
 		scan.close();
 	}
-}
-
+	}
+				
+		

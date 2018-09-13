@@ -1,12 +1,10 @@
 package com.revature.bank;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.io.*;
 
-import com.revature.account.UserAccount;
-import com.revature.util.LoggingUtil;
-import com.revature.util.TypeWriter;
+import com.revature.account.Account;
+import com.revature.account.User;
 
 public class Bank implements Serializable{
 
@@ -15,12 +13,16 @@ public class Bank implements Serializable{
 	 */
 	private static final long serialVersionUID = -3866137718288831030L;
 	
-	List<UserAccount> userAccounts = null;
+	ArrayList<Account> accountsList = null;
+	ArrayList<User> userList = null;
+	private int numberOfCustomers;
 	private int numberOfAccounts;
 	
 	
 	public Bank() {
-		userAccounts = new ArrayList<UserAccount>();
+		accountsList = new ArrayList<Account>();
+		userList = new ArrayList<User>();
+		numberOfCustomers = 0;
 		numberOfAccounts = 0;
 	}
 	
@@ -28,95 +30,95 @@ public class Bank implements Serializable{
 		return numberOfAccounts;
 	}
 
-
 	public void setNumberOfAccounts(int numberOfAccounts) {
 		this.numberOfAccounts = numberOfAccounts;
 	}
 	
-	public void deleteAccount(int accNum) {
-		this.userAccounts.remove(accNum);
-		numberOfAccounts--;
-	}
-	
-	public void incrementAccountNumbers() {
+	public void incrementNumberOfAccounts() {
 		numberOfAccounts++;
 	}
 	
-	public void addAccount(UserAccount acc) {
-		userAccounts.add(acc);
-		incrementAccountNumbers();
+	public void addAccount(Account acc) {
+		accountsList.add(acc);
+		incrementNumberOfAccounts();
 	}
 	
-	public List<UserAccount> getPendingAccounts(){
-		List<UserAccount> pendingAccounts = new ArrayList<UserAccount>();
-		for(int j = 0; j < userAccounts.size(); j++) {
-			if(userAccounts.get(j).getAccountStatus().equals(UserAccount.ACCOUNT_PENDING))
-			{
-				pendingAccounts.add(userAccounts.get(j));
-				
-			}
-			
-		}
-		if(pendingAccounts.size() == 0)
-			TypeWriter.write("No pending acounts at this time.\n\n", 50);
-		return pendingAccounts;
+	public void addUser(User user) {
+		userList.add(user);
+		incrementNumberOfCustomers();
 	}
 	
-	public void displayAccounts(List<UserAccount> accounts) {
-		for(int x = 0; x < accounts.size(); x++) {
-			TypeWriter.write("	"+ accounts.get(x).toString() + "\n", 50);
+	public void displayAllAccounts() {
+		for(int j = 0; j < accountsList.size(); j++) {
+			System.out.println(accountsList.get(j).toString());
 		}
-		
+		System.out.println("");
+		if(numberOfAccounts == 0) {
+			System.out.println("No Accounts At This Time.\n\n");
+		}
 	}
-	public UserAccount customerLogin(String userName, String password){
-		UserAccount user = null;
-		for(int x = 0; x < userAccounts.size(); x++) 
-		{
-			if(UserAccount.REGULAR_ACCOUNT.equals(userAccounts.get(x).getAccType()))
-			{
-				if(userAccounts.get(x).getUserName().equals(userName) && (userAccounts.get(x).getPassword().equals(password))) {
-					return userAccounts.get(x);
-				}
-			}
-			else if (UserAccount.JOINT_ACCOUNT.equals(userAccounts.get(x).getAccType())) {
-				if(userAccounts.get(x).getUserName().equals(userName) && (userAccounts.get(x).getPassword().equals(password)) ||
-						(userAccounts.get(x).getJointAccount().getUserName().equals(userName)) && 
-							userAccounts.get(x).getJointAccount().getPassword().equals(password)){
-					
-								return userAccounts.get(x);
-				}
+	
+	public void displayAllUsers() {
+		for(int j = 0; j < userList.size(); j++) {
+			System.out.println(userList.get(j).toString());
+		}
+		System.out.println("");
+		if(numberOfCustomers == 0) {
+			System.out.println("No Users At This Time.\n\n");
+		}
+	}
+	
+	public void displayPending() {
+		for(int i = 0; i < getAccountsList().size(); i++) {
+			if(Account.ACCOUNT_PENDING.equals(getAccountsList().get(i).getAccountStatus())) {
+				System.out.println(getAccountsList().get(i));
 			}
 		}
-		return user;
-}
-	
-	public void withdraw(UserAccount user, int amount) {
-		user.withdraw(amount);
 	}
 	
-	public void deposit(UserAccount user, int amount) {
-		user.deposit(amount);
-		
-	}
-	
-	public void transfer(UserAccount transferFrom, UserAccount transferTo, int amount) {
-		
-		if(!transferTo.getAccountStatus().equals(UserAccount.ACCOUNT_APPROVED)) {
-			LoggingUtil.logWarn("Recipient account is not active - transaction cancelled\n\n");
-		}
-		else {
-			transferFrom.transfer(amount, transferTo);
+	public void displayUsersAccounts(User user) {
+		for(int i = 0; i < getAccountsList().size(); i++) {
+			if(user.equals(getAccountsList().get(i).getPrimary()) || user.equals(getAccountsList().get(i).getSecondary())) {
+				System.out.println(getAccountsList().get(i).toString());
+			}
 		}
 	}
 	
-	public UserAccount getAccount(int accountNum)  {
-		UserAccount acc = null;
-		for(int j = 0; j < userAccounts.size(); j++) {
-			if(accountNum == userAccounts.get(j).getAccountNumber())
-				acc = userAccounts.get(j);
-		}	
-		return acc;
+	public void displayAccount(int accountNum) {
+		for(int i = 0; i < getAccountsList().size(); i++) {
+			if(getAccountsList().get(i).getAccountNumber() == accountNum) {
+				System.out.println(getAccountsList().get(i).toString() + "\n");
+			}
+		}
 	}
 	
+	public Account getAccount(int accountNum) {
+		Account account= null;
+		for(int i = 0; i < getAccountsList().size(); i++) {
+			if(getAccountsList().get(i).getAccountNumber() == accountNum) {
+				return getAccountsList().get(i);
+			}
+		}
+		return account;
+	}
 	
+	public int getNumberOfCustomer() {
+		return numberOfCustomers;
+	}
+
+	public void setNumberOfCustomer(int numberOfCustomers) {
+		this.numberOfCustomers = numberOfCustomers;
+	}
+	
+	public void incrementNumberOfCustomers() {
+		numberOfCustomers++;
+	}
+	
+	public ArrayList<User> getUsersList(){
+		return userList;
+	}
+	
+	public ArrayList<Account> getAccountsList(){
+		return accountsList;
+	}
 }

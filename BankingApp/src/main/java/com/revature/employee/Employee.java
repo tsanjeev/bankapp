@@ -3,10 +3,10 @@ package com.revature.employee;
 import java.io.Serializable;
 import java.util.Scanner;
 
-import com.revature.account.UserAccount;
+import com.revature.account.Account;
 import com.revature.bank.Bank;
+import com.revature.util.FileManager;
 import com.revature.util.LoggingUtil;
-import com.revature.util.TypeWriter;
 
 public class Employee implements Serializable {
 	
@@ -42,125 +42,109 @@ public class Employee implements Serializable {
 	public int getEmployeeID() {
 		return this.employeeID;
 	}
-
-	public int getAccountNumber(UserAccount person) {
-		return person.getAccountNumber();
-	}
 	
-	public int getBalance(UserAccount person) {
-		return person.getBalance();
-	}
-	
-	public String getAccountType(UserAccount person)
-	{
-		return person.getAccountType();
-	}
-	
-	public void approveApplication(UserAccount person) {
-		person.setAccountStatus(UserAccount.ACCOUNT_APPROVED);
+	public void approveApplication(Account person) {
+		person.setAccountStatus(Account.ACCOUNT_APPROVED);
 	}
 
-	public void denyApplication(UserAccount person) {
-		person.setAccountStatus(UserAccount.ACCOUNT_DENIED);
+	public void denyApplication(Account person) {
+		person.setAccountStatus(Account.ACCOUNT_DENIED);
 	}
 	
-	public String getAccountStatus(UserAccount person) {
+	public String getAccountStatus(Account person) {
 		return person.getAccountStatus();
 	}
 	
-	public String getUserFirstName(UserAccount person) {
-		return person.getFirstName();
-	}
-	
-	public String getUserLastName(UserAccount person) {
-		return person.getLastName();
-	}
-	
-	public void getCustomerInfo(UserAccount user) {
-		if(user == null) {
-			LoggingUtil.logWarn("Account not found\n\n");
-		}
-		else
-			System.out.println(user.toString() +"\n\n");
-	}
-	
-	public void getAllCustomerInfo(Bank bank) {
-		if(bank.getNumberOfAccounts() > 0) {
-			for(int i = 0; i < bank.getNumberOfAccounts(); i++)
-				TypeWriter.write("	"+ bank.getAccount(i).toString() + "\n", 50);
-			System.out.println("");
-		}
-		else {
-			System.out.println("\n	No accounts to retrieve\n\n");
-			
-		}
+	public void getCustomerInfo(Account user) {
+		System.out.println(user.toString() +"\n\n");
 	}
 	
 	public void employeeActions(Bank bank) {
 		boolean isFinished = false;
-		int input = 0;
+		String input = null;
 		while(!isFinished)
-		{
-			TypeWriter.write("	1: Retrieve customer information\n	2: Approve or deny pending accounts\n	3: Return to main menu\n	Please choose an action: ", 50);
-			input = scan.nextInt();
-			if(input == 1) {
-				
-				getAllCustomerInfo(bank); 
-			}
-			else if(input == 2) {
-				boolean isValid = false;
-				int accountNum = 0;
-				while(!isValid)
-				{
-					TypeWriter.write("\n	Pending accounts: \n", 50);
-					if(bank.getPendingAccounts().size() >= 1)
-					{
-						boolean isValidKey = false;
-						while(!isValidKey)
-						{
-							bank.displayAccounts( bank.getPendingAccounts());
-							TypeWriter.write("	Choose account to approve or deny\n	Account number: ", 50);
-							
-							accountNum = scan.nextInt();
-							if(bank.getNumberOfAccounts() > 0 && accountNum <= bank.getNumberOfAccounts())
-								isValidKey = true;
-							else
-								LoggingUtil.logWarn("Invalid entry - try again\n\n");
-						}
-						boolean isValidKeyTwo = false;
-						while(!isValidKeyTwo) {
-							TypeWriter.write("	1: approve\n	2: deny\n	Please choose an action: ", 50);
-							input = scan.nextInt();
-							if(input == 1 || input == 2)
-								isValidKeyTwo = true;
-							else {
-								LoggingUtil.logWarn("Invalid entry - try again\n\n");
-							}
-						}
-						if(input == 1) {
-								approveApplication(bank.getAccount(accountNum));
-								LoggingUtil.logInfo(getPosition()+": " + getEmployeeID() + " - Approved account # " + accountNum + "\n\n");
-							}
-							else if(input == 2) {
-								denyApplication(bank.getAccount(accountNum));
-								LoggingUtil.logInfo(getPosition()+": " + getEmployeeID() + " - Denied account # " + accountNum + "\n\n");
-							}
+		{	
+			System.out.println("Please Choose An Option: ");
+			System.out.println("[Retrieve Account][Approve / Deny Account][Exit]:");
+			input = scan.nextLine();
+			switch(input.toLowerCase().toString()){
+			case "retrieve":
+								System.out.println("Enter account numbuer: ");
+								int accountNumber = scan.nextInt();
+								bank.displayAccount(accountNumber);
+								scan.nextLine();
+								break;
+			case "approve":
+								System.out.println("\nPending accounts: ");
+								bank.displayPending();
+								System.out.println("Please Enter Account to Approve/Deny:");
+								String accNum = scan.nextLine();
+								System.out.println("[Approve][Deny]: ");
+								input = scan.nextLine();
+								Account acc = bank.getAccount(Integer.parseInt(accNum));
+								
+								if("approve".equals(input.toLowerCase().trim())) {
+									if(acc == null)
+										System.out.println("Account not found\n\n");
+									else {
+										acc.setAccountStatus(Account.ACCOUNT_APPROVED);
+										LoggingUtil.logInfo(getPosition()+": " + getEmployeeID() + " - Approved account # " + acc + "\n\n");
+									}
+								}else if("deny".equals(input.toLowerCase().trim())) {
+									if(acc == null)
+										System.out.println("Account not found\n\n");
+									else {
+										acc.setAccountStatus(Account.ACCOUNT_DENIED);
+										LoggingUtil.logInfo(getPosition()+": " + getEmployeeID() + " - Denied account # " + acc + "\n\n");
+									}
+								}	
+								break;
 						
-						}isValid = true;
-				}
-			}
-			else if(input == 3) {
-				isFinished = true;
-			}
-			else {
-				LoggingUtil.logWarn("Invalid Entry - try again\n\n");
+			case "exit":
+							isFinished = true;
+							break;
+			default:
+							LoggingUtil.logWarn("Invalid Entry - try again\n\n");
 			}
 		}
+		
 	}
 
 	@Override
 	public String toString() {
 		return "Employee [employeeID=" + employeeID + "]";
 		
+	}
+	
+	public Employee employeeLogin(Bank bank) {
+		boolean isFinished = false;
+		Employee bankEmployee = null;
+		while(!isFinished)
+		{
+			System.out.println("Please enter employee id: ");
+			int empID = scan.nextInt();
+			System.out.println("");
+			if(Integer.toString((empID)).charAt(0) == '1'){
+				System.out.println("Welcome Teller: "+ empID + "\n");
+				bankEmployee = new Employee();
+				bankEmployee.setEmployeeID(empID);
+				isFinished = true;
+			}
+			else if(Integer.toString((empID)).charAt(0) == '5') {
+				System.out.println("Welcome BankAdmin: "+ empID + "\n");
+				bankEmployee = new BankAdmin();
+				bankEmployee.setEmployeeID(empID);
+				isFinished = true;
+			}
+			else {
+				LoggingUtil.logWarn("Invalid Employee Id - try again.\n\n");
+				System.out.println("Invalid Employee Id - try again.\n\n");
+				
+			}
+		}
+		bankEmployee.employeeActions(bank);
+		FileManager.saveAccounts(bank);
+		return bankEmployee;
+
 	}
 }

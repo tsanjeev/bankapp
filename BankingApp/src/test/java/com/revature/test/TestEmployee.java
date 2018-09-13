@@ -1,4 +1,4 @@
-package com.revature.test;
+/*package com.revature.test;
 
 import static org.junit.Assert.*;
 
@@ -8,12 +8,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.revature.account.UserAccount;
+import com.revature.account.User;
 import com.revature.employee.Employee;
 
 public class TestEmployee {
 
-	UserAccount user;
+	User user;
 	Employee teller;
 	
 	@BeforeClass
@@ -30,11 +30,11 @@ public class TestEmployee {
 		int accountNumber = 123456;
 		teller = new Employee();
 		teller.setEmployeeID(22);
-		user = new UserAccount();
+		user = new User();
 		user.setBalance(initialBalance);
 		user.setAccountNumber(accountNumber);
-		user.setAccountType(UserAccount.ACCOUNT_CHECKING);
-		user.setAccountStatus(UserAccount.ACCOUNT_PENDING);
+		user.setAccountType(User.ACCOUNT_CHECKING);
+		user.setAccountStatus(User.ACCOUNT_PENDING);
 		user.setFirstName("John");
 		user.setLastName("Doe");
 		
@@ -97,4 +97,4 @@ public class TestEmployee {
 	public void testGetUserLastName() {
 		assertEquals(user.getLastName(), teller.getUserLastName(user));
 	}
-}
+}*/
