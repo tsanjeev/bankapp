@@ -14,6 +14,7 @@ public class Account implements Serializable {
 	public static final String ACCOUNT_PENDING = "PENDING";
 	public static final String JOINT_ACCOUNT = "JOINT_ACCOUNT";
 	public static final String REGULAR_ACCOUNT = "REGULAR_ACCOUNT";
+	public static final String ACCOUNT_CLOSED = "ACCOUNT_CLOSED";
 	
 	private int balance;
 	private int accountNumber;
@@ -35,6 +36,11 @@ public class Account implements Serializable {
 	}
 	
 	
+	public Account() {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	@Override
 	public String toString() {
 		return "Account [accountNumber=" + accountNumber + ", primary=" + primary + ", balance=" + balance
@@ -94,6 +100,13 @@ public class Account implements Serializable {
 	
 	public void withdraw(int amount) {
 		this.balance -= amount;
+	}
+
+
+	public void setBalance(int int1) {
+		// TODO Auto-generated method stub
+		this.balance = int1;
+		
 	}
 	
 	

@@ -21,7 +21,7 @@ public class BankAdmin extends Employee implements Serializable {
 	public BankAdmin() {
 		this.position = "BankAdmin";
 	}
-	
+	/*
 	@Override
 	public void employeeActions(Bank bank) {
 		// TODO Auto-generated method stub
@@ -141,10 +141,10 @@ public class BankAdmin extends Employee implements Serializable {
 				LoggingUtil.logWarn("Invalid Entry - try again\n\n");
 			}
 		}
-	}
+	}*/
 
 
-
+/*
 	public void withdraw(Account user, int amount){
 		user.withdraw(amount);
 	}
@@ -155,5 +155,5 @@ public class BankAdmin extends Employee implements Serializable {
 	
 	public void transfer(Account transferFrom, Account transferTo, int amount){
 		transferFrom.transfer(amount, transferTo);
-	}
+	}*/
 }
