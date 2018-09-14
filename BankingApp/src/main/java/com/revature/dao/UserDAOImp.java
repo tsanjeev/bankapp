@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.revature.account.User;
@@ -16,15 +15,15 @@ public class UserDAOImp implements UserDAO {
 		// TODO Auto-generated method stub
 		ArrayList<User> userList = new ArrayList<User>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 
 		try {
 			connection = ConnectionUtil.getConnection();
 
-			stmt = connection.createStatement();
+			
 
-			String sql = "SELECT * FROM USERS";
-
+			String sql = "SELECT * FROM CUSTOMER";
+			stmt = connection.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery(sql);
 
 			while (rs.next()) {
@@ -62,7 +61,7 @@ public class UserDAOImp implements UserDAO {
 
 		try {
 			connection = ConnectionUtil.getConnection();
-			String sql = "INSERT INTO USER VALUES (?,?,?)";
+			String sql = "INSERT INTO CUSTOMER VALUES (?,?,?)";
 
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, user.getCustomerId());
@@ -168,7 +167,7 @@ public class UserDAOImp implements UserDAO {
 		
 		try {
 			connection = ConnectionUtil.getConnection();
-			String sql = "SELECT * FROM USER WHERE userid = ? ";
+			String sql = "SELECT * FROM CUSTOMER WHERE userid = ? ";
 			
 			stmt = connection.prepareStatement(sql);
 			
@@ -197,6 +196,46 @@ public class UserDAOImp implements UserDAO {
 			}
 		}
 		return newUser;
+	}
+	
+	public User getUserByCred(String username, String password) {
+		User user = null;
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		User newUser = new User();
+		
+		try {
+			connection = ConnectionUtil.getConnection();
+			String sql = "SELECT * FROM CUSTOMER WHERE username = ? AND password = ?";
+			
+			stmt = connection.prepareStatement(sql);
+			
+			stmt.setString(1, username);
+			stmt.setString(2, password);
+						
+			ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				newUser.setCustomerId(rs.getInt("userid"));
+				newUser.setUserName(rs.getString("username"));
+				newUser.setPassword(rs.getString("password"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
 	}
 }
 

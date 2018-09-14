@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import com.revature.account.Account;
 import com.revature.account.User;
-import com.revature.bank.AccountServices;
+import com.revature.bank.BankHandler;
 import com.revature.bank.Bank;
 import com.revature.employee.Employee;
 import com.revature.util.FileManager;
@@ -37,7 +37,7 @@ public class Menu {
 			{
 			
 				case "register":
-									AccountServices.register(bank);
+									BankHandler.register(bank);
 									bank.displayAllAccounts();
 									bank.displayAllUsers();
 									break;
@@ -47,7 +47,7 @@ public class Menu {
 									String username = scan.nextLine();
 									System.out.println("Please Enter A Password: " );
 									String password = scan.nextLine();
-									User user = AccountServices.customerLogin(bank, username, password);
+									User user = BankHandler.customerLogin(bank, username, password);
 									//System.out.println(user.toString());
 									System.out.println(user.getUserName()+ " Successfully Logged In.\n");
 									boolean isDone = false;
@@ -63,7 +63,7 @@ public class Menu {
 																	userInput = scan.nextLine();
 																	
 																	if(userInput.trim().equalsIgnoreCase("REGULAR")){
-																		Account account = AccountServices.applyRegular(bank, user);
+																		Account account = BankHandler.applyRegular(bank, user);
 																		//System.out.println(account.toString());
 																	}
 																	else if(userInput.trim().equalsIgnoreCase("JOINT")){
@@ -78,9 +78,9 @@ public class Menu {
 																	String amountDeposit = scan.nextLine();
 																	System.out.println("Please Enter Account #:");
 																	String accNum = scan.nextLine();
-																	Account checkAccount = AccountServices.findAccount(bank, Integer.parseInt(accNum));
+																	Account checkAccount = BankHandler.findAccount(bank, Integer.parseInt(accNum));
 																	if(!checkAccount.getAccountStatus().equals(Account.ACCOUNT_PENDING))
-																		AccountServices.deposit(checkAccount, Integer.parseInt(amountDeposit));
+																		BankHandler.deposit(checkAccount, Integer.parseInt(amountDeposit));
 																	else {
 																		LoggingUtil.logWarn("Account: " + checkAccount.getAccountNumber()+ " - Status Pending - No Transactions Available At This Time\n\n");
 																	}
@@ -91,9 +91,9 @@ public class Menu {
 																	String amountWithdraw = scan.nextLine();
 																	System.out.println("Please Enter Account #:");
 																	String accNumTwo = scan.nextLine();
-																	Account checkAccountTwo = AccountServices.findAccount(bank, Integer.parseInt(accNumTwo));
+																	Account checkAccountTwo = BankHandler.findAccount(bank, Integer.parseInt(accNumTwo));
 																	if(!checkAccountTwo.getAccountStatus().equals(Account.ACCOUNT_PENDING))
-																		AccountServices.deposit(checkAccountTwo, Integer.parseInt(amountWithdraw));
+																		BankHandler.deposit(checkAccountTwo, Integer.parseInt(amountWithdraw));
 																	else {
 																		LoggingUtil.logWarn("Account: " + checkAccountTwo.getAccountNumber()+ " - Status Pending - No Transactions Available At This Time\n\n");
 																	}

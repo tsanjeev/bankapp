@@ -11,4 +11,5 @@ public interface UserDAO {
 	void userUpdate(int userId, User user) throws Exception;
 	void userDelete(int userId) throws Exception;
 	User getUserById(int userId) throws Exception;
+	User getUserByCred(String username, String password);
 }

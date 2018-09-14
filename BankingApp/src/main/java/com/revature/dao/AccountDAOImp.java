@@ -17,16 +17,17 @@ public class AccountDAOImp implements AccountDAO{
 		// TODO Auto-generated method stub
 		ArrayList<Account> accountList = new ArrayList<Account>();
 		Connection connection = null;
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 
 		try {
 			connection = ConnectionUtil.getConnection();
 
-			stmt = connection.createStatement();
+			
 
 			String sql = "SELECT * FROM USERS";
-
+			stmt = connection.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery(sql);
+			
 
 			while (rs.next()) {
 				Account account = new Account();
@@ -74,14 +75,15 @@ public class AccountDAOImp implements AccountDAO{
 
 		try {
 			connection = ConnectionUtil.getConnection();
-			String sql = "INSERT INTO ACCOUNT VALUES (?,?,?,?,?)";
+			String sql = "INSERT INTO ACCOUNT VALUES (?,?,?,?,?,?)";
 
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, accountToSave.getAccountNumber());
-			stmt.setString(2, accountToSave.getAccountType());
-			stmt.setString(3, accountToSave.getAccountStatus());
-			stmt.setInt(3, accountToSave.getPrimary().getCustomerId());
-			stmt.setInt(3, accountToSave.getSecondary().getCustomerId());
+			stmt.setInt(2,  0);
+			stmt.setString(3, accountToSave.getAccountType());
+			stmt.setString(4, accountToSave.getAccountStatus());
+			stmt.setInt(5, accountToSave.getPrimary().getCustomerId());
+			stmt.setInt(6, accountToSave.getSecondary().getCustomerId());
 			success = stmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -115,7 +117,7 @@ public class AccountDAOImp implements AccountDAO{
 							+ " account_status = ?,"
 							+ " account_type = ?,"
 							+ " primary_account_holder = ?,"
-							+ " seconary_account_holder = ?,"
+							+ " secondary_account_holder = ?"
 							+ " WHERE accountid = ?";
 
 			stmt = connection.prepareStatement(sql);
@@ -124,6 +126,7 @@ public class AccountDAOImp implements AccountDAO{
 			stmt.setString(3, account.getAccountType());
 			stmt.setInt(4, account.getPrimary().getCustomerId());
 			stmt.setInt(5, account.getSecondary().getCustomerId());
+			stmt.setInt(6, accountNum);
 			
 			success = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -154,7 +157,7 @@ public class AccountDAOImp implements AccountDAO{
 		
 			try {
 				connection = ConnectionUtil.getConnection();
-				String sql = "Delete From CUSTOMER where customerid = ?";
+				String sql = "Delete From ACCOUNT where accountid = ?";
 		
 			
 				stmt = connection.prepareStatement(sql);
