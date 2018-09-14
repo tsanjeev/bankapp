@@ -11,7 +11,7 @@ import com.revature.util.ConnectionUtil;
 
 public class UserDAOImp implements UserDAO {
 
-	public ArrayList<User> getAllUsers() {
+	public ArrayList<User> getAllUsers(){
 		// TODO Auto-generated method stub
 		ArrayList<User> userList = new ArrayList<User>();
 		Connection connection = null;
@@ -198,8 +198,7 @@ public class UserDAOImp implements UserDAO {
 		return newUser;
 	}
 	
-	public User getUserByCred(String username, String password) {
-		User user = null;
+	public User getUserByCred(String username, String password){
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		User newUser = new User();
@@ -216,7 +215,7 @@ public class UserDAOImp implements UserDAO {
 			ResultSet rs = stmt.executeQuery();
 			
 			while (rs.next()) {
-				newUser.setCustomerId(rs.getInt("userid"));
+				newUser.setCustomerId(rs.getInt("customerid"));
 				newUser.setUserName(rs.getString("username"));
 				newUser.setPassword(rs.getString("password"));
 				
@@ -235,7 +234,7 @@ public class UserDAOImp implements UserDAO {
 				e.printStackTrace();
 			}
 		}
-		return user;
+		return newUser;
 	}
 }
 

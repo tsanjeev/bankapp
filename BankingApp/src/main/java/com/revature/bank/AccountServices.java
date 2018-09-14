@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.revature.account.Account;
 import com.revature.account.User;
 import com.revature.dao.AccountDAOImp;
+import com.revature.dao.JunctionDAOImp;
 import com.revature.dao.UserDAOImp;
 import com.revature.util.LoggingUtil;
 import com.revature.util.TypeWriter;
@@ -26,16 +27,17 @@ public class AccountServices {
 }
 	
 	
-	public static Account applyRegular(Bank bank, User user) throws Exception {
+	public static Account applyRegular(User user) throws Exception {
 		TypeWriter.write("Checking or Savings account: \n", 0);
 		String accountType = scan.nextLine();
-		if(accountType.equalsIgnoreCase(Account.ACCOUNT_CHECKING))
+		if(accountType.trim().equalsIgnoreCase(Account.ACCOUNT_CHECKING))
 			accountType = Account.ACCOUNT_CHECKING;
 		else
 			accountType = Account.ACCOUNT_SAVINGS;
-		Account newAccount = new Account(bank.getNumberOfAccounts(),  accountType, Account.ACCOUNT_PENDING, user, null);
+		Account newAccount = new Account(0,  accountType, Account.ACCOUNT_PENDING, user, null);
 		AccountDAOImp ad = new AccountDAOImp();
 		ad.accountInsert(newAccount);
+		JunctionDAOImp jd = new JunctionDAOImp();
 		return newAccount;
 	}
 	
@@ -52,20 +54,26 @@ public class AccountServices {
 		}
 	}
 	
-	public static void deposit(Account account, int amount) {
+	public static void deposit(Account account, int amount) throws Exception {
 		// TODO Auto-generated method stub
+			AccountDAOImp ad = new AccountDAOImp();
+			account = ad.getAccountById(account.getAccountNumber());
 			account.deposit(amount);
+			ad.accountUpdate(account, account.getAccountNumber());
 			LoggingUtil.logInfo("Account #" + account.getAccountNumber() + " successfully deposited " + amount + ", new balance: $" + account.getBalance() +".\n\n");
 	}
 	
-	public void withdraw(Account account, int amount) {
+	public void withdraw(Account account, int amount) throws Exception {
 		// TODO Auto-generated method stub
 		if(amount > account.getBalance()) {
 			LoggingUtil.logError("Insufficient Funds - Transaction cancelled.\n\n");
 			System.out.println("Insufficient Funds - Transaction cancelled.\n\n");
 		}
 		else {
+			AccountDAOImp ad = new AccountDAOImp();
+			account = ad.getAccountById(account.getAccountNumber());
 			account.withdraw(amount);
+			ad.accountUpdate(account, account.getAccountNumber());
 			LoggingUtil.logInfo("Account #" + account.getAccountNumber() + " successfully withdrew " + amount + ", new balance: $" + account.getBalance() +".\n\n");
 			System.out.println("Account #" + account.getAccountNumber() + " successfully withdrew " + amount + ", new balance: $" + account.getBalance() +".\n\n");
 		}
@@ -73,6 +81,20 @@ public class AccountServices {
 		
 	}
 	
+	public static Account getAccountById(int accountNum) throws Exception {
+		AccountDAOImp ad = new AccountDAOImp();
+		Account newAccount = ad.getAccountById(accountNum);
+		return newAccount;
+	}
+	
+	public void displayAccount(int accountNum) {
+		
+	}
+	
+	public void displayAllUserAccounts(User user) {
+		
+	}
+	/*
 	public static Account findAccount(Bank bank, int accNum) {
 		Account account = null;
 		for(int i = 0; i < bank.getAccountsList().size(); i++) {
@@ -82,6 +104,7 @@ public class AccountServices {
 		}
 		return account;
 	}
+	*/
 }
 	/*
 	public static void applyJoint(Bank bank, User userOne, User userTwo) {

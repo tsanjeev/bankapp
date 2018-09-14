@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.revature.account.Account;
+import com.revature.account.User;
 import com.revature.util.ConnectionUtil;
 
 public class AccountDAOImp implements AccountDAO{
@@ -24,7 +25,7 @@ public class AccountDAOImp implements AccountDAO{
 
 			
 
-			String sql = "SELECT * FROM USERS";
+			String sql = "SELECT * FROM CUSTOMER";
 			stmt = connection.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery(sql);
 			
@@ -77,14 +78,37 @@ public class AccountDAOImp implements AccountDAO{
 			connection = ConnectionUtil.getConnection();
 			String sql = "INSERT INTO ACCOUNT VALUES (?,?,?,?,?,?)";
 
-			stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, accountToSave.getAccountNumber());
 			stmt.setInt(2,  0);
 			stmt.setString(3, accountToSave.getAccountType());
 			stmt.setString(4, accountToSave.getAccountStatus());
 			stmt.setInt(5, accountToSave.getPrimary().getCustomerId());
-			stmt.setInt(6, accountToSave.getSecondary().getCustomerId());
+			
+			int primaryNum = accountToSave.getPrimary().getCustomerId();
+			int secondaryNum = 0;
+			if(accountToSave.getSecondary() == null)
+				stmt.setInt(6, 0 );
+			else {
+				stmt.setInt(6, accountToSave.getSecondary().getCustomerId());
+				secondaryNum = accountToSave.getSecondary().getCustomerId();
+			}
 			success = stmt.executeUpdate();
+				
+			int accountid = 0;
+			 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+		            if (generatedKeys.next()) {
+		                accountid =  generatedKeys.getInt(1);
+		            }
+		            else {
+		                throw new SQLException("no key obtained.");
+		            }
+		        }
+			
+			JunctionDAOImp jd = new JunctionDAOImp();
+			jd.accountInsert(primaryNum, accountid);
+			if(secondaryNum != 0)
+				jd.accountInsert(secondaryNum, accountid);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -193,7 +217,7 @@ public class AccountDAOImp implements AccountDAO{
 		
 		try {
 			connection = ConnectionUtil.getConnection();
-			String sql = "SELECT * FROM USER WHERE userid = ? ";
+			String sql = "SELECT * FROM CUSTOMER WHERE customerid = ? ";
 			
 			stmt = connection.prepareStatement(sql);
 			
@@ -230,5 +254,4 @@ public class AccountDAOImp implements AccountDAO{
 		}
 		return account;
 	}
-
 }
